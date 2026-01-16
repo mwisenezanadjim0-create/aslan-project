@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment</title>
+  <link rel="stylesheet" href="css/payment.css">
+  <link rel="stylesheet" href="css/toast.css">
+  <script src="https://kit.fontawesome.com/ba57058827.js" crossorigin="anonymous"></script>
+  <script src="js/toast.js"></script>
+</head>
+
+<body>
+  <header>
+    <h1>Payment Page</h1>
+    <a href="product.html" class="back-btn">Back to Products</a>
+  </header>
+
+  <main class="cart-container">
+    <div class="payment-container">
+      <h2>Complete Your Order</h2>
+
+      <div class="order-info">
+        <p><strong>Order:</strong> <span id="order-name"></span></p>
+        <p><strong>Amount:</strong> <span id="order-price"></span> RWF</p>
+      </div>
+
+      <input type="text" id="customerName" placeholder="Your name">
+      <input type="text" id="customerPhone" placeholder="Your phone number">
+
+      <div class="payment-actions">
+        <button id="payWithMomo" class="ussd-btn">Pay with Mobile Money (MTN)</button>
+        <button id="paidBtn" class="confirm-btn">I’ve Paid</button>
+      </div>
+
+      <p class="note">
+        Click <b>Pay with Mobile Money</b> to trigger USSD, then click <b>I've Paid</b> after completing the
+        transaction.
+      </p>
+
+      <div id="confirmation"></div>
+    </div>
+
+
+
+
+  </main>
+
+  <footer
+    style="text-align: center; padding: 40px 20px; background: rgba(0,0,0,0.1); backdrop-filter: blur(5px); margin-top: 30px;">
+    <p style="font-size: 1rem; color: #fff; margin-bottom: 5px;">
+      Questions about your order?
+    </p>
+    <a href="tel:0785975691" style="font-size: 1.2rem; color: #00ffdd; text-decoration: none; font-weight: bold;">
+      <i class="fas fa-phone-alt"></i> 0785975691
+    </a>
+  </footer>
+
+
+  <script src="js/payment.js"></script>
+</body>
+
+</html>

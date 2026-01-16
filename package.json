@@ -1,0 +1,19 @@
+{
+  "name": "aslan-cafe",
+  "version": "1.0.0",
+  "description": "Premium Food Delivery App",
+  "main": "backend/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node backend/server.js",
+    "start-backend": "node backend/server.js",
+    "start-frontend": "node frontend/serve.js",
+    "dev": "node backend/server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "mongoose": "^8.0.0"
+  }
+}

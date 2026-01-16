@@ -1,0 +1,18 @@
+node_modules/
+.env
+.DS_Store
+*.log
+
+# Logs
+logs/
+auth_error.log
+
+# WhatsApp Session Data
+backend/baileys_auth_info/
+backend/.wwebjs_cache/
+backend/whatsapp-qr.png
+
+# IDE
+.vscode/
+.idea/
+

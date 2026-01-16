@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/style0.css">
+  <link rel="stylesheet" href="css/toast.css">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/ba57058827.js" crossorigin="anonymous"></script>
+  <script src="js/config.js"></script>
+  <script src="js/toast.js"></script>
+  <title>T-Motion</title>
+  <style>
+    /* minimal modal styles for auth */
+    .auth-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
+
+    .auth-box {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      width: 320px;
+      max-width: 90%;
+    }
+
+    .auth-box h3 {
+      margin: 0 0 10px
+    }
+
+    .auth-box input {
+      width: 100%;
+      padding: 8px;
+      margin: 6px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px
+    }
+
+    .auth-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px
+    }
+
+    .auth-actions button {
+      flex: 1;
+      padding: 8px
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <div class="logo">
+      <img src="img/2.png" height="300" width="400">
+    </div>
+    <div class="hamburger" id="hamburger">
+      <i class="fas fa-bars"></i>
+    </div>
+    <ul class="nav-list" id="nav-list">
+      <li><a href="product.html">Product</a></li>
+      <li><a href="#"> store</a></li>
+      <li><a href="restaurant.html">Restaurant</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="login.html">Login</a></li>
+      <button><a href="signup.html">Create an Account</a></button>
+    </ul>
+  </nav>
+
+  <section id="up"></section>
+  <section id="down"></section>
+  <section id="left"></section>
+  <section id="right"></section>
+
+  <div class="image-slider">
+    <img src="img/item1.png" class="slide active">
+    <img src="img/item2.png" class="slide">
+    <img src="img/item3.png" class="slide">
+    <img src="img/item4.png" class="slide">
+    <img src="img/item5.png" class="slide">
+    <img src="img/item6.png" class="slide">
+    <div class="dots"></div>
+  </div>
+
+  <div class="hero-content">
+    <h1>Your City's Best Food, Delivered Free & Fast</h1>
+    <p>Explore top local restaurants, track your order live, & enjoy free delivery right to your door.</p>
+    <button class="cta-button" onclick="window.location.href='product.html'">Start Your Order Now</button>
+  </div>
+  <script>
+    const slides = document.querySelectorAll(".image-slider .slide");
+    const dotsContainer = document.querySelector(".dots");
+    let index = 0;
+    let timer;
+
+    // Create dots
+    slides.forEach((_, i) => {
+      const dot = document.createElement("span");
+      if (i === 0) dot.classList.add("active");
+      dot.addEventListener("click", () => {
+        index = i;
+        showSlide();
+        resetAuto();
+      });
+      dotsContainer.appendChild(dot);
+    });
+
+    const dots = dotsContainer.querySelectorAll("span");
+
+    function showSlide() {
+      slides.forEach(slide => slide.classList.remove("active"));
+      dots.forEach(dot => dot.classList.remove("active"));
+
+      slides[index].classList.add("active");
+      dots[index].classList.add("active");
+    }
+
+    function autoSlide() {
+      index = (index + 1) % slides.length;
+      showSlide();
+    }
+
+    function resetAuto() {
+      clearInterval(timer);
+      timer = setInterval(autoSlide, 4500);
+    }
+
+    timer = setInterval(autoSlide, 4500);
+  </script>
+  <div class="prod" id="prod">
+    <h2 class="product-title">products</h2>
+    <div class="cards-container">
+      <!-- 1. Fish Master Plate -->
+      <div class="card1" data-name="Aslan Fish Master Plate" data-price="30000">
+        <img src="https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=500&q=80"
+          alt="Fish Master Plate">
+        <div class="card-body">
+          <h3>Fish Master Plate</h3>
+        </div>
+        <div class="rating">★★★★★ <span>5.0</span><br><span class="price">30,000frw</span></div>
+        <button onclick="window.location.href='product.html'">Order Now</button>
+      </div>
+      <!-- 2. Chicken Master Plate -->
+      <div class="card1" data-name="Aslan Chicken Master Plate" data-price="30000">
+        <img src="https://images.unsplash.com/photo-1532550907401-a500c9a57435?auto=format&fit=crop&w=500&q=80"
+          alt="Chicken Master Plate">
+        <div class="card-body">
+          <h3>Chicken Master Plate</h3>
+        </div>
+        <div class="rating">★★★★★ <span>4.9</span><br><span class="price">30,000frw</span></div>
+        <button onclick="window.location.href='product.html'">Order Now</button>
+      </div>
+      <!-- 3. BBQ Chicken Pizza -->
+      <div class="card1" data-name="BBQ Chicken Pizza" data-price="12000">
+        <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=500&q=80"
+          alt="Pizza">
+        <div class="card-body">
+          <h3>BBQ Chicken Pizza</h3>
+        </div>
+        <div class="rating">★★★★★ <span>4.8</span><br><span class="price">12,000frw</span></div>
+        <button onclick="window.location.href='product.html'">Order Now</button>
+      </div>
+      <!-- 4. Meat Deluxe Pizza -->
+      <div class="card1" data-name="Meat Deluxe Pizza" data-price="12000">
+        <img src="https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?auto=format&fit=crop&w=500&q=80"
+          alt="Pizza">
+        <div class="card-body">
+          <h3>Meat Deluxe Pizza</h3>
+        </div>
+        <div class="rating">★★★★★ <span>4.7</span><br><span class="price">12,000frw</span></div>
+        <button onclick="window.location.href='product.html'">Order Now</button>
+      </div>
+      <!-- 5. Full Chicken with Chips -->
+      <div class="card1" data-name="Full Chicken with Chips" data-price="20000">
+        <img src="https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?auto=format&fit=crop&w=500&q=80"
+          alt="Full Chicken">
+        <div class="card-body">
+          <h3>Full Chicken (Chips)</h3>
+        </div>
+        <div class="rating">★★★★★ <span>4.9</span><br><span class="price">20,000frw</span></div>
+        <button onclick="window.location.href='product.html'">Order Now</button>
+      </div>
+      <!-- 6. King Beef Burger -->
+      <div class="card1" data-name="King Beef Burger" data-price="8000">
+        <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=500&q=80"
+          alt="King Burger">
+        <div class="card-body">
+          <h3>King Beef Burger</h3>
+        </div>
+        <div class="rating">★★★★★ <span>4.7</span><br><span class="price">8,000frw</span></div>
+        <button onclick="window.location.href='product.html'">Order Now</button>
+      </div>
+      <!-- 7. Fish Brochette -->
+      <div class="card1" data-name="Fish Brochette with Chips" data-price="7000">
+        <img src="https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=500&q=80"
+          alt="Fish Brochette">
+        <div class="card-body">
+          <h3>Fish Brochette (Chips)</h3>
+        </div>
+        <div class="rating">★★★★★ <span>4.6</span><br><span class="price">7,000frw</span></div>
+        <button onclick="window.location.href='product.html'">Order Now</button>
+      </div>
+      <!-- 8. Chicken Fried Rice -->
+      <div class="card1" data-name="Chicken Fried Rice" data-price="7000">
+        <img src="https://images.unsplash.com/photo-1603133872878-684f208fb84b?auto=format&fit=crop&w=500&q=80"
+          alt="Fried Rice">
+        <div class="card-body">
+          <h3>Chicken Fried Rice</h3>
+        </div>
+        <div class="rating">★★★★★ <span>4.5</span><br><span class="price">7,000frw</span></div>
+        <button onclick="window.location.href='product.html'">Order Now</button>
+      </div>
+      <!-- 9. Milkshake Special -->
+      <div class="card1" data-name="Milkshake (All Flavors)" data-price="4500">
+        <img src="https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=500&q=80"
+          alt="Milkshake">
+        <div class="card-body">
+          <h3>Premium Milkshake</h3>
+        </div>
+        <div class="rating">★★★★★ <span>4.9</span><br><span class="price">4,500frw</span></div>
+        <button onclick="window.location.href='product.html'">Order Now</button>
+      </div>
+      <!-- 10. Tropical Smoothie -->
+      <div class="card1" data-name="Tropical Smoothie" data-price="5000">
+        <img src="https://images.unsplash.com/photo-1505252585461-04db1eb84625?auto=format&fit=crop&w=500&q=80"
+          alt="Smoothie">
+        <div class="card-body">
+          <h3>Tropical Smoothie</h3>
+        </div>
+        <div class="rating">★★★★★ <span>4.8</span><br><span class="price">5,000frw</span></div>
+        <button onclick="window.location.href='product.html'">Order Now</button>
+      </div>
+    </div>
+    <div style="text-align: center; margin-top: 40px; margin-bottom: 60px;">
+      <button onclick="window.location.href='product.html'"
+        style="padding: 15px 40px; font-size: 22px; background: linear-gradient(135deg, #057cac, #00ffdd); color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; box-shadow: 0 10px 20px rgba(0,255,221,0.3); transition: 0.3s; font-family: 'Poppins', sans-serif;">
+        To make order click here
+      </button>
+    </div>
+  </div>
+  <footer class="main-footer" id="contact">
+    <div class="footer-container">
+      <div class="footer-section brand-info">
+        <h2 class="footer-logo">Aslan Café</h2>
+        <p>Premium dining and fast delivery right to your doorstep. Taste the excellence in every bite.</p>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="https://www.instagram.com/aslan_cafe_luxe_resto/" target="_blank"><i
+              class="fab fa-instagram"></i></a>
+          <a href="https://wa.me/250785975691" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+
+      <div class="footer-section links">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="product.html">Products</a></li>
+          <li><a href="#">Our Store</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section contact">
+        <h3>Contact Us</h3>
+        <p><i class="fas fa-phone-alt"></i> +250 793 570 492</p>
+        <p><i class="fas fa-envelope"></i> ishimwet822@gmail.com</p>
+        <p class="service-promo">Contact us for websites!</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2024 Aslan Café. All Rights Reserved.</p>
+      <p class="dev-credit">Developed by <span>Develpoersteam.LTD</span> | 0793570492</p>
+    </div>
+  </footer>
+
+  <script>
+    // Hamburger menu toggle
+    const hamburger = document.getElementById('hamburger');
+    const navList = document.getElementById('nav-list');
+
+    hamburger.addEventListener('click', () => {
+      navList.classList.toggle('active');
+    });
+  </script>
+</body>
+
+</html>
