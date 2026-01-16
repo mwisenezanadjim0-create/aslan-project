@@ -6,7 +6,7 @@ import { logError, logInfo } from "../utils/logger.js";
 
 import User from "../models/User.js";
 import Stock from "../models/stock.js";
-import Daily from "../models/daily.js";
+import Daily from "../models/Daily.js";
 import Marketing from "../models/Marketing.js";
 import Order from "../models/Order.js";
 
