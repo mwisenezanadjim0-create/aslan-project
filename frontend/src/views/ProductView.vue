@@ -241,7 +241,7 @@ onMounted(() => {
 
 /* MENU CONTENT */
 .menu-container {
-    padding: 60px 20px 100px;
+    padding: 60px 0 100px;
     max-width: 1200px;
 }
 
@@ -428,7 +428,7 @@ onMounted(() => {
     }
 
     .menu-container {
-        padding: 40px 15px 80px;
+        padding: 40px 0 80px;
     }
 
     .menu-section {
@@ -436,7 +436,8 @@ onMounted(() => {
     }
 
     .section-title {
-        font-size: 1.6rem;
+        font-size: 1.5rem;
+        word-break: break-word;
     }
 
     .menu-items-grid { 

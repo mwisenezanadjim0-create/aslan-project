@@ -96,7 +96,7 @@ onUnmounted(() => {
 }
 
 .logo img {
-  height: 85px;
+  height: clamp(50px, 8vw, 85px);
   width: auto;
   filter: brightness(0) invert(1) drop-shadow(0 0 15px rgba(0, 255, 221, 0.5));
   transition: 0.3s;
@@ -260,12 +260,16 @@ onUnmounted(() => {
 }
 
 @media (max-width: 480px) {
-  .navbar {
-    padding: 15px 15px;
+  .main-nav-container {
+    padding: 10px 0;
   }
 
-  .logo {
-    height: 50px;
+  .nav-content {
+      padding: 0 15px;
+  }
+
+  .logo img {
+    height: 45px;
   }
 
   .nav-links {
