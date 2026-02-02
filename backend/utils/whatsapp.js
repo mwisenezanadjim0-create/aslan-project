@@ -58,7 +58,11 @@ async function connectToWhatsApp() {
             if (fs.existsSync(qrPath)) fs.unlinkSync(qrPath);
 
             // Test message to Boss
-            const bossNumber = process.env.BOSS_NUMBER || "250785975691";
+            const bossNumber = process.env.BOSS_NUMBER;
+            if (!bossNumber) {
+                logWarning("BOSS_NUMBER not set in .env - Setup message skipped");
+                return;
+            }
             try {
                 const chatId = `${bossNumber}@s.whatsapp.net`;
                 await sock.sendMessage(chatId, { text: "🚀 *Aslan System:* WhatsApp Connection Online (Baileys)!" });
@@ -72,15 +76,13 @@ async function connectToWhatsApp() {
     return sock;
 }
 
-// Initialize on import
-connectToWhatsApp();
+// Export initialization function
+export { connectToWhatsApp };
 
 export default {
     sendMessage: async (jid, text) => {
-        if (!sock) throw new Error("WhatsApp client not initialized");
+        if (!sock || !sock.user) throw new Error("WhatsApp is currently disconnected. Please scan the QR code.");
 
-        // Baileys uses @s.whatsapp.net for users and @g.us for groups
-        // Ensure we strip @c.us (from old whatsapp-web.js logic) and append @s.whatsapp.net if missing
         let recipient = jid;
         if (!recipient.includes('@')) {
             recipient = `${recipient}@s.whatsapp.net`;
@@ -88,6 +90,31 @@ export default {
             recipient = recipient.replace('@c.us', '@s.whatsapp.net');
         }
 
-        return sock.sendMessage(recipient, { text });
+        try {
+            return await sock.sendMessage(recipient, { text });
+        } catch (err) {
+            logError("WA Message Send Failure", err);
+            throw new Error("Failed to send WhatsApp message. Client might be offline.");
+        }
+    },
+    sendImage: async (jid, buffer, caption = "") => {
+        if (!sock || !sock.user) throw new Error("WhatsApp is currently disconnected. Please scan the QR code.");
+
+        let recipient = jid;
+        if (!recipient.includes('@')) {
+            recipient = `${recipient}@s.whatsapp.net`;
+        } else if (recipient.endsWith('@c.us')) {
+            recipient = recipient.replace('@c.us', '@s.whatsapp.net');
+        }
+
+        try {
+            return await sock.sendMessage(recipient, {
+                image: buffer,
+                caption: caption
+            });
+        } catch (err) {
+            logError("WA Image Send Failure", err);
+            throw new Error("Failed to send WhatsApp image. Client might be offline.");
+        }
     }
 };

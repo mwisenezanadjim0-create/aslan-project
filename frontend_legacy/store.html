@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aslan Store | Experiences & Vouchers</title>
+    <link rel="stylesheet" href="css/product.css">
+    <link rel="stylesheet" href="css/toast.css">
+    <script src="https://kit.fontawesome.com/ba57058827.js" crossorigin="anonymous"></script>
+    <script src="js/toast.js"></script>
+    <style>
+        /* Specific overrides for the store to make it look special */
+        .experience-card {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0, 255, 221, 0.2);
+        }
+
+        .experience-card::before {
+            content: 'PREMIUM';
+            position: absolute;
+            top: 20px;
+            right: -30px;
+            background: #00ffdd;
+            color: #000;
+            padding: 5px 40px;
+            transform: rotate(45deg);
+            font-weight: 800;
+            font-size: 0.8rem;
+            z-index: 10;
+        }
+
+        .gift-card-visual {
+            height: 220px;
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .gift-card-visual i {
+            font-size: 5rem;
+            background: -webkit-linear-gradient(#00ffdd, #057cac);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .price-tag {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 255, 221, 0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            color: #00ffdd;
+            font-weight: bold;
+            backdrop-filter: blur(5px);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Aslan Experiences</h1>
+        <a href="index.html" class="back-btn">Back to Home</a>
+    </header>
+
+    <nav class="category-nav">
+        <div class="nav-container">
+            <a href="#giftcards" class="cat-link active">Gift Cards</a>
+            <a href="#events" class="cat-link">Events & Nights</a>
+            <a href="#classes" class="cat-link">Masterclasses</a>
+        </div>
+    </nav>
+
+    <main>
+        <!-- 1. GIFT CARDS -->
+        <div class="section-header" id="giftcards">
+            <h2>Digital Gift Cards</h2>
+            <p style="color: rgba(255,255,255,0.7); margin-top: 10px;">Give the gift of premium dining. Valid for 6
+                months.</p>
+        </div>
+        <div class="product-grid">
+            <div class="product-card experience-card" data-name="Bronze Gift Card" data-price="10000">
+                <div class="gift-card-visual">
+                    <i class="fas fa-gift"></i>
+                    <span class="price-tag">10k</span>
+                </div>
+                <div class="product-card-body">
+                    <h3>Bronze Gift Card</h3>
+                    <p class="product-description">
+                        <strong>Good for:</strong> Vegetarian Pizza, Beef Steak, or King Burger + Drink.
+                    </p>
+                    <p class="price">10,000 frw</p>
+                    <button class="order-btn">Purchase Gift</button>
+                </div>
+            </div>
+            <div class="product-card experience-card" data-name="Silver Gift Card" data-price="25000">
+                <div class="gift-card-visual">
+                    <i class="fas fa-gem"></i>
+                    <span class="price-tag">25k</span>
+                </div>
+                <div class="product-card-body">
+                    <h3>Silver Gift Card</h3>
+                    <p class="product-description">
+                        <strong>Good for:</strong> Full Chicken & Chips, Big Grilled Fish, or 2x Pizzas.
+                    </p>
+                    <p class="price">25,000 frw</p>
+                    <button class="order-btn">Purchase Gift</button>
+                </div>
+            </div>
+            <div class="product-card experience-card" data-name="Gold Gift Card" data-price="50000">
+                <div class="gift-card-visual">
+                    <i class="fas fa-crown"></i>
+                    <span class="price-tag">50k</span>
+                </div>
+                <div class="product-card-body">
+                    <h3>Gold VIP Gift Card</h3>
+                    <p class="product-description">
+                        <strong>Good for:</strong> Aslan Master Plate (Fish/Chicken), Family Platters, or Full 3-Course
+                        Dinner.
+                    </p>
+                    <p class="price">50,000 frw</p>
+                    <button class="order-btn">Purchase Gift</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. SPECIAL EVENTS -->
+        <div class="section-header" id="events">
+            <h2>Special Events</h2>
+        </div>
+        <div class="product-grid">
+            <div class="product-card experience-card" data-name="Couples Dinner Night" data-price="40000">
+                <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=500&q=80"
+                    alt="Romantic Dinner">
+                <div class="product-card-body">
+                    <h3>Couple's Dinner Night</h3>
+                    <p class="product-description">A romantic 3-course meal for two. Includes decorative table setting &
+                        wine/juice.</p>
+                    <p class="price">40,000 frw</p>
+                    <button class="order-btn">Book Experience</button>
+                </div>
+            </div>
+            <div class="product-card experience-card" data-name="Family Sunday Feast" data-price="60000">
+                <img src="images/full-shot-family-members-silhouettes-outdoors_23-2150039658.jpg"
+                    alt="Family Feast">
+                <div class="product-card-body">
+                    <h3>Family Sunday Feast</h3>
+                    <p class="product-description">A massive platter for 4-5 people. Grilled meats, sides, and drinks
+                        included.</p>
+                    <p class="price">60,000 frw</p>
+                    <button class="order-btn">Book Experience</button>
+                </div>
+            </div>
+            <div class="product-card experience-card" data-name="Birthday Party Package" data-price="100000">
+                <img src="images/birthday-celebration-cake-happy-birthday-background-with-copy-space-colorful-background-wallpaper-backdrop-photo.jpg"
+                    alt="Birthday Party">
+                <div class="product-card-body">
+                    <h3>Birthday Party Package</h3>
+                    <p class="product-description">Complete Celebration for 8-10 people. Includes Cake, Decorations, &
+                        Food Platter.</p>
+                    <p class="price">100,000 frw</p>
+                    <button class="order-btn">Book Experience</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. MASTERCLASSES -->
+        <div class="section-header" id="classes">
+            <h2>Aslan Masterclasses</h2>
+        </div>
+        <div class="product-grid">
+            <div class="product-card experience-card" data-name="Coffee Brewing Masterclass" data-price="15000">
+                <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=500&q=80"
+                    alt="Coffee Class">
+                <div class="product-card-body">
+                    <h3>Barista Masterclass</h3>
+                    <p class="product-description">Learn to brew the perfect cup. 2-hour session with our head barista.
+                    </p>
+                    <p class="price">15,000 frw</p>
+                    <button class="order-btn">Book Ticket</button>
+                </div>
+            </div>
+            <div class="product-card experience-card" data-name="Grill Masterclass" data-price="20000">
+                <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=500&q=80"
+                    alt="Grill Class">
+                <div class="product-card-body">
+                    <h3>Grill Masterclass</h3>
+                    <p class="product-description">Learn the secrets of the 'Fish Master Plate' from our top chefs.</p>
+                    <p class="price">20,000 frw</p>
+                    <button class="order-btn">Book Ticket</button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer
+        style="text-align: center; padding: 40px 20px; background: rgba(0,0,0,0.2); backdrop-filter: blur(10px); margin-top: 50px;">
+        <p style="font-size: 1.1rem; color: #fff; margin-bottom: 10px;">
+            <i class="fas fa-info-circle"></i> Need help redeeming a voucher?
+        </p>
+        <a href="tel:0785975691" style="font-size: 1.5rem; color: #00ffdd; text-decoration: none; font-weight: bold;">
+            <i class="fas fa-phone-alt"></i> 0785975691
+        </a>
+    </footer>
+
+    <!-- Re-using product.js for order logic (it works globally if classes match) -->
+    <script src="js/product.js"></script>
+</body>
+
+</html>

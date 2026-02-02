@@ -19,7 +19,8 @@ const ALLOWED_EMAILS = [
 // SIGNUP
 router.post("/signup", async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, email: rawEmail, password } = req.body;
+    const email = rawEmail.toLowerCase();
 
     if (!username || !email || !password)
       return res.status(400).json({ msg: "All fields required" });
@@ -33,9 +34,19 @@ router.post("/signup", async (req, res) => {
     if (exists) return res.status(400).json({ msg: "Email exists" });
 
     const hashed = await bcrypt.hash(password, 10);
-    await User.create({ username, email, password: hashed });
 
-    logInfo(`New user registered: ${email}`);
+    // Assign role based on email
+    let role = "staff";
+    const lowerEmail = email.toLowerCase();
+    if (lowerEmail === "boss@aslan.com") role = "boss";
+    else if (lowerEmail === "manager@aslan.com") role = "manager";
+    else if (lowerEmail === "admin@aslan.com") role = "admin";
+    else if (lowerEmail === "mwisenezanadjim0@gmail.com") role = "admin";
+    else if (lowerEmail === "chef@aslan.com") role = "chef";
+
+    await User.create({ username, email, password: hashed, role });
+
+    logInfo(`New user registered: ${email} with role: ${role}`);
     res.json({ msg: "Account created" });
   } catch (err) {
     logError("SIGNUP", err);
@@ -46,40 +57,51 @@ router.post("/signup", async (req, res) => {
 
 // LOGIN
 router.post("/login", async (req, res) => {
+  const loginStart = Date.now();
+  console.log("Login request received [START]");
   try {
-    const { email, password } = req.body;
+    const { email: rawEmail, password } = req.body;
+    const email = rawEmail.toLowerCase();
 
     if (!email || !password) {
       return res.status(400).json({ msg: "All fields required" });
     }
 
+    console.log("Searching for user in database...");
     const user = await User.findOne({ email });
     if (!user) {
+      console.log("User not found:", email);
       return res.status(400).json({ msg: "Invalid credentials" });
     }
+    console.log("User found. Comparing passwords...");
 
     // Check if email is in the allowed list
     if (!ALLOWED_EMAILS.includes(user.email.toLowerCase())) {
+      console.log("User not authorized (email check):", email);
       return res.status(403).json({ msg: "You are not authorized to access the dashboard." });
     }
 
     const ok = await bcrypt.compare(password, user.password);
+    console.log("Password comparison result:", ok);
     if (!ok) {
       return res.status(400).json({ msg: "Invalid credentials" });
     }
 
+    console.log("Generating token for user ID:", user._id);
     const token = jwt.sign(
       { id: user._id },
       JWT_SECRET,
       { expiresIn: "1h" }
     );
 
+    console.log(`Login successful. Total server time: ${Date.now() - loginStart}ms`);
     logInfo(`User logged in: ${email}`);
     res.json({
       token,
       user: {
         id: user._id,
-        username: user.username
+        username: user.username,
+        role: user.role || "staff"
       }
     });
 

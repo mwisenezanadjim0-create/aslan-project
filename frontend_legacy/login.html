@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | Aslan Project</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/toast.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/ba57058827.js" crossorigin="anonymous"></script>
+  <script src="js/config.js"></script>
+  <script src="js/toast.js"></script>
+</head>
+
+<body>
+  <!-- BACKGROUND ANIMATIONS -->
+  <section id="up"></section>
+  <section id="down"></section>
+  <section id="left"></section>
+  <section id="right"></section>
+
+  <div class="box">
+    <div class="login-box">
+      <h2>Welcome Back</h2>
+      <form id="loginForm">
+        <div class="input-box">
+          <span class="icon"><i class="fas fa-envelope"></i></span>
+          <input id="email" type="email" required>
+          <label>Email</label>
+        </div>
+        <div class="input-box">
+          <span class="icon"><i class="fas fa-lock"></i></span>
+          <input id="password" type="password" required>
+          <label>Password</label>
+        </div>
+        <div class="remember-forgot">
+          <label><input type="checkbox"> Remember me</label>
+          <a href="#">Forgot Password?</a>
+        </div>
+        <button type="submit">Login</button>
+        <div class="register-link">
+          <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+        </div>
+        <p id="msg" style="text-align: center; margin-top: 15px; color: #ff4757;"></p>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/auth.js?v=1.0.1"></script>
+</body>
+
+</html>

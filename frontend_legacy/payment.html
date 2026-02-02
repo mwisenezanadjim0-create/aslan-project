@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment</title>
+  <link rel="stylesheet" href="css/payment.css">
+  <link rel="stylesheet" href="css/toast.css">
+  <script src="https://kit.fontawesome.com/ba57058827.js" crossorigin="anonymous"></script>
+  <script src="js/toast.js"></script>
+</head>
+
+<body>
+  <header>
+    <h1>Payment Page</h1>
+    <a href="product.html" class="back-btn">Back to Products</a>
+  </header>
+
+  <main class="cart-container">
+    <div class="payment-card">
+      <div class="payment-header">
+        <i class="fas fa-wallet"></i>
+        <h2>Checkout</h2>
+      </div>
+
+      <!-- Receipt Style Summary -->
+      <div class="receipt-box">
+        <div class="receipt-top">
+          <h3>Aslan Café Luxe</h3>
+          <p id="receipt-date"></p>
+        </div>
+        <div class="receipt-divider"></div>
+        <div class="receipt-item">
+          <span>Item</span>
+          <span id="order-name"></span>
+        </div>
+        <div class="receipt-divider"></div>
+        <div class="receipt-total">
+          <span>Total Amount</span>
+          <span id="order-price"></span>
+          <small>RWF</small>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="input-group">
+          <i class="fas fa-user"></i>
+          <input type="text" id="customerName" placeholder="Full Name">
+        </div>
+        <div class="input-group">
+          <i class="fas fa-phone"></i>
+          <input type="text" id="customerPhone" placeholder="MoMo Phone Number">
+        </div>
+
+      </div>
+
+      <div class="payment-actions">
+        <button id="orderActionBtn" class="momo-btn" style="background: #00ffdd; color: #0f172a;">
+          Place Order
+        </button>
+        <div id="loadingSpinner" style="display: none; text-align: center; margin: 10px 0;">
+          <i class="fas fa-circle-notch fa-spin" style="font-size: 2rem; color: #00ffdd;"></i>
+          <p style="margin-top: 10px; color: rgba(255,255,255,0.7);">Processing Request...</p>
+        </div>
+      </div>
+
+      <p class="note">
+        After triggering the <b>USSD</b> on your phone, click <b>Confirm Payment</b> to notify our kitchen.
+      </p>
+
+      <div id="confirmation"></div>
+
+      <!-- DIGITAL PASS (Hidden until payment success) -->
+      <div id="digital-pass-container" style="display: none; margin-top: 30px;">
+        <div class="digital-pass">
+          <div class="pass-header">
+            <span class="pass-type">OFFICIAL PASS</span>
+            <img src="img/2.png" alt="Logo" class="pass-logo">
+          </div>
+          <div class="pass-body">
+            <h3 id="pass-item-name">Gold Gift Card</h3>
+            <p class="pass-owner">Name: <span id="pass-customer-name">Danny</span></p>
+            <div class="pass-dates">
+              <div>
+                <small>ISSUED:</small>
+                <span id="pass-issue-date">18 Jan 2026</span>
+              </div>
+              <div>
+                <small>EXPIRES:</small>
+                <span id="pass-expiry-date" style="color: #ff4757;">18 Jul 2026</span>
+              </div>
+            </div>
+            <div class="pass-id-box">
+              <small>PASS ID:</small>
+              <h2 id="pass-id">#ASL-9928</h2>
+            </div>
+          </div>
+          <div class="pass-footer">
+            <p>Screenshot this pass & show to waiter.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer
+    style="text-align: center; padding: 40px 20px; background: rgba(0,0,0,0.1); backdrop-filter: blur(5px); margin-top: 30px;">
+    <p style="font-size: 1rem; color: #fff; margin-bottom: 5px;">
+      Questions about your order?
+    </p>
+    <a href="tel:0785975691" style="font-size: 1.2rem; color: #00ffdd; text-decoration: none; font-weight: bold;">
+      <i class="fas fa-phone-alt"></i> 0785975691
+    </a>
+  </footer>
+
+
+  <script src="js/payment.js"></script>
+</body>
+
+</html>

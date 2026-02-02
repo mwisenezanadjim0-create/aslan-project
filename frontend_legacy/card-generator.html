@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADMIN | Aslan Pass Generator</title>
+    <link rel="stylesheet" href="css/product.css">
+    <link rel="stylesheet" href="css/payment.css">
+    <script src="https://kit.fontawesome.com/ba57058827.js" crossorigin="anonymous"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <style>
+        body {
+            background: #0f172a;
+            color: #fff;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .generator-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 100%;
+            border: 1px solid rgba(0, 255, 221, 0.2);
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #00ffdd;
+            font-weight: bold;
+        }
+
+        /* Show the pass clearly here */
+        #digital-pass-container {
+            display: block !important;
+            margin: 30px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>🔒 Admin Pass Generator</h1>
+    <p style="opacity: 0.7; margin-bottom: 20px;">Generate Digital Passes for confirmed WhatsApp payments.</p>
+    <a href="dashboard.html" style="color: #00ffdd; text-decoration: none; margin-bottom: 30px; display: inline-block;">
+        <i class="fas fa-arrow-left"></i> Back to Dashboard
+    </a>
+
+    <div class="generator-card">
+        <label>Customer Name</label>
+        <input type="text" id="custName" placeholder="e.g. Nadjim">
+
+        <label>Pass Type / Item</label>
+        <select id="passType">
+            <option value="Bronze Gift Card">Bronze Gift Card (10k)</option>
+            <option value="Silver Gift Card">Silver Gift Card (25k)</option>
+            <option selected value="Gold VIP Gift Card">Gold VIP Gift Card (50k)</option>
+            <option value="Birthday Party Package">Birthday Party Package</option>
+            <option value="Couple's Dinner Night">Couple's Dinner Night</option>
+            <option value="Family Feast">Family Feast</option>
+        </select>
+
+        <div style="display: flex; gap: 15px;">
+            <div style="flex: 1;">
+                <label>Date Created</label>
+                <input type="date" id="dateCreated">
+            </div>
+            <div style="flex: 1;">
+                <label>Date Expired</label>
+                <input type="date" id="dateExpired">
+            </div>
+        </div>
+
+        <button onclick="generatePreview()" class="order-btn">🔄 Generate Preview</button>
+    </div>
+
+    <!-- PREVIEW AREA -->
+    <div id="digital-pass-container" style="display: none; max-width: 400px;">
+        <div class="digital-pass" id="capture-area">
+            <div class="pass-header">
+                <span class="pass-type">OFFICIAL PASS</span>
+                <img src="img/2.png" alt="Logo" class="pass-logo">
+            </div>
+            <div class="pass-body">
+                <h3 id="pass-item-name">Gold Gift Card</h3>
+                <p class="pass-owner">Name: <span id="pass-customer-name">Danny</span></p>
+                <div class="pass-dates">
+                    <div>
+                        <small>CREATED ON:</small>
+                        <span id="pass-issue-date">18 Jan 2026</span>
+                    </div>
+                    <div>
+                        <small>VALID UNTIL:</small>
+                        <span id="pass-expiry-date" style="color: #ff4757;">18 Jul 2026</span>
+                    </div>
+                </div>
+                <div class="pass-id-box">
+                    <small>PASS ID:</small>
+                    <h2 id="pass-id">#ASL-9928</h2>
+                </div>
+            </div>
+            <div class="pass-footer">
+                <p>Present this Official Digital Pass to the waiter.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- DOWNLOAD BUTTON -->
+    <button id="downloadBtn" onclick="downloadPass()" class="order-btn"
+        style="background: #ffcc00; color: #000; display: none; max-width: 400px;">
+        <i class="fas fa-download"></i> Download Image
+    </button>
+
+
+    <script>
+        // Set Default Dates on Load
+        window.addEventListener('DOMContentLoaded', () => {
+            const today = new Date();
+            const next6Months = new Date();
+            next6Months.setMonth(today.getMonth() + 6);
+
+            document.getElementById('dateCreated').valueAsDate = today;
+            document.getElementById('dateExpired').valueAsDate = next6Months;
+        });
+
+        function generatePreview() {
+            const name = document.getElementById('custName').value;
+            const type = document.getElementById('passType').value;
+            const dateCreatedVal = document.getElementById('dateCreated').value;
+            const dateExpiredVal = document.getElementById('dateExpired').value;
+
+            if (!name) return alert("Enter a name!");
+            if (!dateCreatedVal || !dateExpiredVal) return alert("Select both dates!");
+
+            // Update DOM
+            document.getElementById('pass-customer-name').innerText = name;
+            document.getElementById('pass-item-name').innerText = type;
+
+            // Format Dates nicely (e.g., 18 Jan 2026)
+            const options = { day: 'numeric', month: 'short', year: 'numeric' };
+
+            const createdObj = new Date(dateCreatedVal);
+            const expiredObj = new Date(dateExpiredVal);
+
+            document.getElementById('pass-issue-date').innerText = createdObj.toLocaleDateString('en-GB', options);
+            document.getElementById('pass-expiry-date').innerText = expiredObj.toLocaleDateString('en-GB', options);
+
+            // Random ID
+            document.getElementById('pass-id').innerText = "#ASL-" + Math.floor(1000 + Math.random() * 9000);
+
+            // Show
+            document.getElementById('digital-pass-container').style.display = "block";
+            document.getElementById('downloadBtn').style.display = "block";
+        }
+
+        function downloadPass() {
+            const node = document.getElementById('capture-area');
+
+            html2canvas(node, {
+                backgroundColor: null, // Keep transparency if possible, or matches CSS
+                scale: 2 // High Resolution
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `Aslan_Pass_${document.getElementById('custName').value}.png`;
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        }
+    </script>
+</body>
+
+</html>

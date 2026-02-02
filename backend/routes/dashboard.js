@@ -50,6 +50,7 @@ async function verifyToken(req, res, next) {
       if (!user || !ALLOWED_EMAILS.includes(user.email.toLowerCase())) {
         return res.status(403).json({ msg: "Access denied. Not authorized." });
       }
+      req.user = user; // Attach full user object
       req.userId = decoded.id;
       next();
     } catch (error) {
@@ -64,12 +65,100 @@ router.get("/user", verifyToken, async (req, res) => {
   res.json(user);
 });
 
-/* ================= SUMMARY ================= */
+/* ================= SUMMARY & STATS ================= */
 router.get("/summary", verifyToken, async (req, res) => {
-  const stockCount = await Stock.countDocuments({ userId: req.userId });
-  const dailyCount = await Daily.countDocuments({ userId: req.userId });
-  const marketingCount = await Marketing.countDocuments({ userId: req.userId });
-  res.json({ stockCount, dailyCount, marketingCount });
+  try {
+    const userId = req.userId;
+    const isAdmin = req.user.role === 'admin' || req.user.role === 'boss';
+
+    // If admin/boss, get global counts, otherwise get user-specific counts
+    const filter = isAdmin ? {} : { userId };
+
+    const stockCount = await Stock.countDocuments(filter);
+    const dailyRecords = await Daily.find(filter);
+
+    let totalAllTime = 0;
+    let totalToday = 0;
+    let totalThisWeek = 0;
+    let totalThisMonth = 0;
+    let totalThisYear = 0;
+
+    const now = new Date();
+    const serverYear = now.getFullYear();
+    const serverMonth = now.getMonth() + 1;
+    const serverDay = now.getDate();
+
+    const todayStr = `${serverYear}-${String(serverMonth).padStart(2, '0')}-${String(serverDay).padStart(2, '0')}`;
+    const monthStr = `${serverYear}-${String(serverMonth).padStart(2, '0')}`;
+    const yearStr = `${serverYear}`;
+
+    // Sunday of current week
+    const startOfWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay());
+    startOfWeek.setHours(0, 0, 0, 0);
+
+    dailyRecords.forEach(record => {
+      const amount = Number(record.amount) || 0;
+      totalAllTime += amount;
+
+      if (!record.date) return;
+
+      const rDateStr = String(record.date).trim();
+
+      // Split YYYY-MM-DD
+      const parts = rDateStr.split("-");
+      if (parts.length === 3) {
+        const rYear = parseInt(parts[0]);
+        const rMonth = parseInt(parts[1]);
+        const rDay = parseInt(parts[2]);
+
+        // Yearly
+        if (rYear === serverYear) {
+          totalThisYear += amount;
+
+          // Monthly
+          if (rMonth === serverMonth) {
+            totalThisMonth += amount;
+
+            // Daily
+            if (rDay === serverDay) {
+              totalToday += amount;
+            }
+          }
+        }
+
+        // Weekly
+        const rDate = new Date(rYear, rMonth - 1, rDay);
+        if (rDate >= startOfWeek && rDate <= now) {
+          totalThisWeek += amount;
+        }
+      } else {
+        // Fallback for non-standard formats
+        if (rDateStr === todayStr) totalToday += amount;
+        if (rDateStr.startsWith(monthStr)) totalThisMonth += amount;
+        if (rDateStr.startsWith(yearStr)) totalThisYear += amount;
+      }
+    });
+
+    const marketingCount = await Marketing.countDocuments(filter);
+
+    res.json({
+      stockCount,
+      dailyCount: dailyRecords.length,
+      marketingCount,
+      stats: {
+        allTime: totalAllTime,
+        today: totalToday,
+        thisWeek: totalThisWeek,
+        thisMonth: totalThisMonth,
+        thisYear: totalThisYear
+      },
+      todayDate: todayStr,
+      role: req.user.role
+    });
+  } catch (err) {
+    logError("Summary Calc", err);
+    res.status(500).json({ msg: "Server error" });
+  }
 });
 
 /* ================= STOCK ================= */
@@ -163,6 +252,42 @@ router.post("/orders", verifyToken, async (req, res) => {
     res.json({ msg: "Order saved & boss notified via WhatsApp" });
   } catch (err) {
     logError("Order notification", err);
+    res.status(500).json({ msg: "Server error" });
+  }
+});
+
+/* ================= STAFF TRACKING (ADMIN ONLY) ================= */
+router.get("/staff", verifyToken, async (req, res) => {
+  if (req.user.role !== 'admin' && req.user.role !== 'boss') {
+    return res.status(403).json({ msg: "Administrator access required" });
+  }
+
+  try {
+    // Admin Tracking Logic: 
+    // 1. Include regular staff
+    // 2. specifically include manager@aslan.com
+    // 3. specifically EXCLUDE mwisenezanadjim0@gmail.com and this admin themselves
+    const staff = await User.find({
+      $or: [
+        { role: 'staff' },
+        { email: 'manager@aslan.com' }
+      ],
+      email: { $nin: ['mwisenezanadjim0@gmail.com', req.user.email] }
+    }).select("-password");
+
+    // For each staff member, get their contribution count
+    const staffWithStats = await Promise.all(staff.map(async (s) => {
+      const orders = await Order.countDocuments({ userId: s._id });
+      const reports = await Daily.countDocuments({ userId: s._id });
+      return {
+        ...s.toObject(),
+        stats: { orders, reports }
+      };
+    }));
+
+    res.json(staffWithStats);
+  } catch (err) {
+    logError("Staff Fetch", err);
     res.status(500).json({ msg: "Server error" });
   }
 });

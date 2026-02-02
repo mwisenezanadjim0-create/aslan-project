@@ -6,8 +6,9 @@
   "type": "module",
   "scripts": {
     "start": "node backend/server.js",
+    "build": "cd frontend && npm install && npm run build && cd ../backend && npm install",
     "dev": "node backend/server.js",
-    "build": "echo 'No build needed'"
+    "prod": "node backend/server.js"
   },
   "dependencies": {
     "@whiskeysockets/baileys": "^7.0.0-rc.9",

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Aslan Cafe - Premium Dining Experience. Explore our delicious menu featuring Aslan Specialities, Breakfast, Soups, and more.">
+    <title>Aslan Cafe | Menu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="background-animation">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <header class="main-header">
+        <div class="container">
+            <div class="logo-area">
+                <h1>ASLAN <span class="highlight">CAFE</span></h1>
+                <p class="subtitle">Experience the Taste of Luxury</p>
+            </div>
+            <nav class="category-nav" id="categoryNav">
+                <!-- Categories will be injected here by JS -->
+                <button class="nav-btn active" data-category="all">All</button>
+                <button class="nav-btn" data-category="breakfast">Breakfast</button>
+                <button class="nav-btn" data-category="snacks">Snacks</button>
+                <button class="nav-btn" data-category="starter">Starters</button>
+                <button class="nav-btn" data-category="soup">Soups</button>
+                <button class="nav-btn" data-category="main">Main Course</button>
+                <button class="nav-btn" data-category="sides">Sides</button>
+                <button class="nav-btn" data-category="drinks">Drinks</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container menu-container" id="menuContainer">
+        <!-- Menu Items will be dynamically inserted here -->
+        <div class="loading-state">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Loading Menu Delights...</p>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Aslan Cafe. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

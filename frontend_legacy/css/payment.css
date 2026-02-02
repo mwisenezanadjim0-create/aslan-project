@@ -1,0 +1,457 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Outfit', sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background: radial-gradient(circle at top left, #1e293b, #0f172a);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
+  overflow-x: hidden;
+}
+
+header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.back-btn {
+  color: #00ffdd;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 50px;
+  background: rgba(0, 255, 221, 0.1);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 255, 221, 0.2);
+}
+
+.back-btn:hover {
+  background: #00ffdd;
+  color: #0f172a;
+  transform: translateX(-5px);
+}
+
+/* MAIN CART CONTAINER */
+.cart-container {
+  padding: 40px 20px;
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  justify-content: center;
+}
+
+.payment-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(30px);
+  padding: 40px;
+  border-radius: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+  width: 100%;
+  animation: cardFadeIn 0.8s ease-out;
+}
+
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.payment-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.payment-header i {
+  font-size: 1.5rem;
+  color: #00ffdd;
+}
+
+.payment-header h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+/* RECEIPT BOX */
+.receipt-box {
+  background: #fff;
+  color: #1e293b;
+  padding: 30px;
+  border-radius: 24px;
+  margin-bottom: 35px;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Receipt wavy bottom effect */
+.receipt-box::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 100%;
+  height: 10px;
+  background-image: radial-gradient(circle, #fff 5px, transparent 6px);
+  background-size: 15px 15px;
+  background-position: center;
+}
+
+.receipt-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 20px;
+}
+
+.receipt-top h3 {
+  font-size: 1.2rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #0f172a;
+}
+
+.receipt-top p {
+  font-size: 0.8rem;
+  opacity: 0.6;
+}
+
+.receipt-divider {
+  border-top: 2px dashed #e2e8f0;
+  margin: 15px 0;
+}
+
+.receipt-item {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.receipt-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-top: 10px;
+}
+
+.receipt-total span:first-child {
+  font-weight: 800;
+  font-size: 1.1rem;
+}
+
+.receipt-total span:last-child {
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: #057cac;
+}
+
+/* FORM SECTION */
+.form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-group i {
+  position: absolute;
+  left: 20px;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 1rem;
+}
+
+.input-group input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 18px 18px 18px 55px;
+  border-radius: 20px;
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #00ffdd;
+  box-shadow: 0 0 20px rgba(0, 255, 221, 0.15);
+}
+
+/* 5-DIGIT PIN STYLES */
+.pin-box-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+}
+
+.pin-digit {
+  width: 100%;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: #fff;
+  font-size: 1.5rem;
+  text-align: center;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.pin-digit:focus {
+  border-color: #00ffdd;
+  background: rgba(0, 255, 221, 0.05);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 255, 221, 0.1);
+}
+
+/* BUTTONS */
+.payment-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.momo-btn {
+  background: #ffcc00;
+  color: #000;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border-radius: 20px;
+  font-weight: 800;
+  font-size: 1.1rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.momo-logo {
+  height: 25px;
+}
+
+.momo-btn:hover {
+  transform: scale(1.02);
+  box-shadow: 0 15px 30px rgba(255, 204, 0, 0.3);
+}
+
+.confirm-btn {
+  background: #00ffdd;
+  color: #0f172a;
+  height: 60px;
+  border-radius: 20px;
+  font-weight: 800;
+  font-size: 1.1rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.confirm-btn:hover {
+  background: #ffffff;
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(255, 255, 255, 0.1);
+}
+
+.note {
+  margin-top: 25px;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.4);
+  text-align: center;
+  line-height: 1.6;
+}
+
+.note b {
+  color: #00ffdd;
+}
+
+/* MOBILE RESPONSIVE */
+@media (max-width: 480px) {
+  .payment-card {
+    padding: 30px 20px;
+    border-radius: 30px;
+  }
+
+  .receipt-box {
+    padding: 20px;
+  }
+
+  .receipt-total span:last-child {
+    font-size: 1.5rem;
+  }
+}
+
+/* DIGITAL PASS STYLES */
+/* DIGITAL PASS STYLES */
+.digital-pass {
+  background: #0f172a;
+  /* Solid Dark Background */
+  border: 2px solid #00ffdd;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/* Remove the foggy overlay */
+.digital-pass::after {
+  display: none;
+}
+
+.pass-header {
+  background: #1e293b;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #00ffdd;
+}
+
+.pass-type {
+  font-size: 0.9rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: #00ffdd;
+  text-transform: uppercase;
+}
+
+.pass-logo {
+  height: 40px;
+  opacity: 1;
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+}
+
+.pass-body {
+  padding: 30px 20px;
+  text-align: center;
+  background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+}
+
+.pass-body h3 {
+  font-size: 1.8rem;
+  color: #fff;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  font-weight: 800;
+  text-shadow: 0 4px 10px rgba(0, 0, 0, 1);
+  letter-spacing: 1px;
+}
+
+.pass-owner {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.2rem;
+  margin-bottom: 25px;
+}
+
+.pass-owner span {
+  color: #00ffdd;
+  font-weight: 900;
+  font-size: 1.4rem;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(0, 255, 221, 0.5);
+}
+
+.pass-dates {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* Added */
+  background: rgba(0, 0, 0, 0.6);
+  padding: 15px 20px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.pass-dates div {
+  text-align: left;
+}
+
+.pass-dates small {
+  display: block;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.pass-dates span {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+.pass-id-box {
+  border: 2px dashed rgba(255, 255, 255, 0.3);
+  padding: 15px;
+  border-radius: 12px;
+  background: rgba(255, 204, 0, 0.05);
+}
+
+.pass-id-box strong {
+  display: block;
+}
+
+.pass-id-box small {
+  display: block;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+}
+
+.pass-id-box h2 {
+  font-family: 'Courier New', monospace;
+  letter-spacing: 3px;
+  color: #ffcc00;
+  margin-top: 5px;
+  font-size: 1.8rem;
+  text-shadow: 0 0 15px rgba(255, 204, 0, 0.6);
+}
+
+.pass-footer {
+  background: #000;
+  padding: 15px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #fff;
+  font-style: italic;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}

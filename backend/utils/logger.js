@@ -10,13 +10,20 @@ const logFile = path.join(logsDir, `app-${new Date().toISOString().split('T')[0]
 
 export function logError(context, error) {
     const timestamp = new Date().toISOString();
-    const logMessage = `[${timestamp}] [ERROR] ${context}: ${error.message}\n${error.stack}\n\n`;
+    const message = error instanceof Error ? error.message : String(error);
+    const stack = error instanceof Error ? error.stack : 'No stack trace available';
+
+    const logMessage = `[${timestamp}] [ERROR] ${context}: ${message}\n${stack}\n\n`;
 
     // Log to console
     console.error(logMessage);
 
     // Log to file
-    fs.appendFileSync(logFile, logMessage);
+    try {
+        fs.appendFileSync(logFile, logMessage);
+    } catch (e) {
+        console.error("Failed to write to log file:", e);
+    }
 }
 
 export function logInfo(message) {
