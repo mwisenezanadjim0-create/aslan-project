@@ -40,25 +40,54 @@ router.post("/verify-screenshot", async (req, res) => {
             return res.status(400).json({ msg: "No screenshot uploaded" });
         }
 
-        const { customerName, orderName, amount, phone } = req.body;
+        const { customerName, orderName, amount, phone, orderId } = req.body;
         const screenshot = req.files.screenshot;
+        const receipt = req.files.receipt;
         const bossNumber = process.env.BOSS_NUMBER;
 
         if (!bossNumber) {
             return res.status(500).json({ msg: "Boss phone number not configured" });
         }
 
-        const caption = `📸 *New Payment Proof Received*\n\n` +
+        // 1. Send MoMo Screenshot (Proof)
+        const proofCaption = `📸 *MOMO PROOF RECEIVED*\n\n` +
             `👤 *Customer:* ${customerName}\n` +
             `📞 *Phone:* ${phone}\n` +
-            `🍴 *Item:* ${orderName}\n` +
             `💵 *Amount:* ${Number(amount).toLocaleString()} RWF\n\n` +
-            `_Please verify this screenshot manually!_`;
+            `_Verifying proof for Order #ASL-${orderId}_`;
 
-        await whatsapp.sendImage(bossNumber, screenshot.data, caption);
+        await whatsapp.sendImage(bossNumber, screenshot.data, proofCaption);
 
-        logInfo(`Screenshot payment proof sent to boss for ${customerName}`);
-        res.json({ msg: "Screenshot sent for verification!" });
+        // 2. Send Digital Pro Receipt (Order Details)
+        if (receipt) {
+            const receiptCaption = `🧾 *ASLAN CAFÉ RECEIPT: #ASL-${orderId}*\n\n` +
+                `🍴 *Items:* ${orderName}\n` +
+                `💰 *Total:* ${Number(amount).toLocaleString()} RWF\n` +
+                `👤 *Buyer:* ${customerName}\n\n` +
+                `_Thank you for your order! Your meal is being prepared._`;
+
+            // A. Send to Boss/Restaurant
+            await whatsapp.sendImage(bossNumber, receipt.data, receiptCaption);
+
+            // B. Send to Customer (Instant confirmation)
+            let customerWA = phone.trim();
+            if (customerWA.startsWith('0')) {
+                customerWA = '250' + customerWA.substring(1);
+            } else if (!customerWA.startsWith('250')) {
+                customerWA = '250' + customerWA;
+            }
+
+            try {
+                await whatsapp.sendImage(customerWA, receipt.data, receiptCaption);
+                logInfo(`Receipt #${orderId} delivered to customer ${customerWA}`);
+            } catch (waErr) {
+                logError(`Delivery failed for customer ${customerWA}`, waErr);
+                // We don't block the response if only the customer message fails
+            }
+        }
+
+        logInfo(`Proof & Receipt for #${orderId} sent to boss for ${customerName}`);
+        res.json({ msg: "Proof & Receipt sent for verification!" });
     } catch (error) {
         logError("Screenshot Upload", error);
         const msg = error.message?.includes("WhatsApp") ? error.message : "Failed to send screenshot to Boss";

@@ -15,8 +15,8 @@
       </div>
       
       <button class="order-btn" @click="orderNow">
-        <span class="btn-text">Order Now</span>
-        <span class="btn-icon"><i class="fas fa-chevron-right"></i></span>
+        <span class="btn-text">Add to Cart</span>
+        <span class="btn-icon"><i class="fas fa-cart-shopping"></i></span>
       </button>
     </div>
   </div>
@@ -24,6 +24,7 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
+import { useCartStore } from '@/store/cart'
 
 const props = defineProps({
   id: [Number, String],
@@ -33,12 +34,17 @@ const props = defineProps({
   rating: [Number, String]
 })
 
+const cartStore = useCartStore()
 const router = useRouter()
 
 const orderNow = () => {
-  localStorage.setItem('orderName', props.name)
-  localStorage.setItem('orderPrice', props.price) 
-  router.push('/payment')
+  cartStore.addItem({
+    id: props.id,
+    name: props.name,
+    price: props.price,
+    image: props.image
+  })
+  cartStore.isCartOpen = true
 }
 </script>
 

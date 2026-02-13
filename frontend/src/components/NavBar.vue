@@ -1,5 +1,7 @@
 <template>
-  <header class="main-nav-container" :class="{ 'scrolled': isScrolled }">
+  <div class="nav-wrapper">
+    <BookingModal :is-open="isBookingOpen" @close="isBookingOpen = false" />
+    <header class="main-nav-container" :class="{ 'scrolled': isScrolled }">
     <div class="nav-content">
       <RouterLink to="/" class="logo">
         <img src="@/assets/img/2.png" alt="Aslan Logo">
@@ -24,7 +26,17 @@
             <span class="item-icon"><i class="fas fa-store"></i></span>
             Restaurant
         </RouterLink>
+        <button class="nav-item reserve-btn" @click="openBooking">
+            <span class="item-icon"><i class="fas fa-calendar-check"></i></span>
+            Book Table
+        </button>
         <div class="auth-group">
+          <!-- Cart Toggle -->
+          <button class="cart-toggle" @click="cartStore.toggleCart">
+            <i class="fas fa-shopping-cart"></i>
+            <span v-if="cartStore.totalItems > 0" class="cart-badge">{{ cartStore.totalItems }}</span>
+          </button>
+
           <RouterLink to="/login" class="login-btn" @click="isMenuOpen = false">Login</RouterLink>
           <RouterLink to="/signup" class="signup-btn" @click="isMenuOpen = false">
             Get Started
@@ -32,15 +44,25 @@
         </div>
       </nav>
     </div>
-  </header>
+    </header>
+  </div>
 </template>
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import { RouterLink } from 'vue-router'
+import { useCartStore } from '@/store/cart'
+import BookingModal from '@/components/BookingModal.vue'
 
+const cartStore = useCartStore()
 const isMenuOpen = ref(false)
 const isScrolled = ref(false)
+const isBookingOpen = ref(false)
+
+const openBooking = () => {
+  isMenuOpen.value = false
+  isBookingOpen.value = true
+}
 
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value
@@ -185,6 +207,46 @@ onUnmounted(() => {
   background: #fff;
 }
 
+/* CART STYLES */
+.cart-toggle {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    transition: 0.3s;
+}
+
+.cart-toggle:hover {
+    background: var(--primary);
+    color: var(--dark-bg);
+    border-color: var(--primary);
+}
+
+.cart-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 800;
+    min-width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 5px;
+    border: 2px solid var(--dark-bg);
+}
+
 /* HAMBURGER */
 .hamburger {
   display: none;
@@ -224,12 +286,12 @@ onUnmounted(() => {
     position: fixed;
     top: 0;
     right: -100%;
-    width: 320px;
+    width: 280px;
     height: 100vh;
     background: #0b111e;
     flex-direction: column;
     justify-content: center;
-    padding: 100px 40px;
+    padding: 100px 25px;
     transition: 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
     box-shadow: -15px 0 50px rgba(0,0,0,0.8);
   }
@@ -274,7 +336,7 @@ onUnmounted(() => {
 
   .nav-links {
     width: 280px;
-    padding: 80px 30px;
+    padding: 80px 20px;
   }
 
   .nav-item {

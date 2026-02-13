@@ -164,7 +164,7 @@ const handleOrder = (dish) => {
     width: fit-content;
     margin: 0 auto 20px;
     padding: 8px 18px;
-    background: rgba(0, 255, 221, 0.1);
+    background: rgba(255, 215, 0, 0.1);
     border: 1px solid var(--primary);
     color: var(--primary);
     border-radius: 50px;
@@ -173,7 +173,7 @@ const handleOrder = (dish) => {
 }
 
 .resto-hero h1 {
-    font-size: 5rem;
+    font-size: clamp(2.5rem, 10vw, 5rem);
     color: #fff;
     margin-bottom: 20px;
 }
@@ -197,7 +197,7 @@ const handleOrder = (dish) => {
 
 .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 350px), 1fr));
     gap: 30px;
     margin-top: 50px;
 }
@@ -247,7 +247,7 @@ const handleOrder = (dish) => {
 
 .menu-highlights-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
     gap: 40px;
     margin-top: 60px;
 }
@@ -307,7 +307,7 @@ const handleOrder = (dish) => {
 .icon-box {
     width: 80px;
     height: 80px;
-    background: rgba(0, 255, 221, 0.1);
+    background: rgba(255, 215, 0, 0.1);
     border-radius: 50%;
     margin: 0 auto 30px;
     display: flex;
@@ -344,8 +344,61 @@ const handleOrder = (dish) => {
 }
 
 @media (max-width: 768px) {
-    .resto-hero h1 { font-size: 3rem; }
-    .hero-actions { flex-direction: column; padding: 0 10%; }
-    .location-card { padding: 40px 20px; }
+    .resto-hero {
+        padding-top: 60px;
+        min-height: 400px;
+    }
+
+    .resto-hero h1 { 
+        font-size: 10vw; /* Scales better */
+        margin-bottom: 20px;
+        line-height: 1.1;
+    }
+    
+    .resto-hero p {
+        font-size: 1rem;
+        padding: 0 15px;
+    }
+
+    .hero-actions { 
+        flex-direction: column; 
+        padding: 0 10%; 
+        width: 100%;
+        gap: 15px;
+    }
+    
+    .btn-primary, .btn-outline {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .gallery-section, .highlights-section, .map-section {
+        padding: 60px 5%;
+    }
+    
+    .gallery-grid {
+        gap: 20px;
+        grid-template-columns: 1fr;
+    }
+    
+    .gallery-item {
+        height: 250px;
+    }
+
+    .location-card { 
+        padding: 40px 20px; 
+    }
+    
+    .location-info h3 {
+        font-size: 2rem;
+    }
+    
+    .location-info p {
+        font-size: 1rem;
+    }
+    
+    .hours {
+        font-size: 0.9rem;
+    }
 }
 </style>

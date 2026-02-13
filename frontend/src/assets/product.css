@@ -31,7 +31,7 @@ header {
 header h1 {
   font-family: 'Dancing Script', cursive;
   font-size: 2.2rem;
-  color: #00ffdd;
+  color: var(--primary);
 }
 
 header a.back-btn {
@@ -86,9 +86,9 @@ header a.back-btn:hover {
 
 .cat-link:hover,
 .cat-link.active {
-  color: #00ffdd;
-  background: rgba(0, 255, 221, 0.1);
-  border-color: rgba(0, 255, 221, 0.2);
+  color: var(--primary);
+  background: rgba(255, 215, 0, 0.1);
+  border-color: rgba(255, 215, 0, 0.2);
 }
 
 /* ===== SECTION HEADERS ===== */
@@ -126,7 +126,7 @@ header a.back-btn:hover {
 .product-card:hover {
   transform: translateY(-10px);
   background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(0, 255, 221, 0.3);
+  border-color: rgba(255, 215, 0, 0.3);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
@@ -159,7 +159,7 @@ header a.back-btn:hover {
 .product-card .price {
   font-weight: 800;
   font-size: 1.4rem;
-  color: #00ffdd;
+  color: var(--primary);
   margin-bottom: 10px;
 }
 
@@ -173,7 +173,7 @@ header a.back-btn:hover {
 .order-btn {
   width: 100%;
   padding: 15px;
-  background: #00ffdd;
+  background: var(--primary);
   border: none;
   color: #0f172a;
   font-weight: 800;

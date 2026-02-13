@@ -82,7 +82,8 @@ const navItems = [
     { id: 'stock', label: 'Stock', icon: 'fas fa-box' },
     { id: 'daily', label: 'Daily Progress', icon: 'fas fa-chart-line' },
     { id: 'orders', label: 'Orders', icon: 'fas fa-shopping-cart' },
-    { id: 'marketing', label: 'Marketing', icon: 'fas fa-bullhorn' }
+    { id: 'marketing', label: 'Marketing', icon: 'fas fa-bullhorn' },
+    { id: 'reviews', label: 'Guest Reviews', icon: 'fas fa-comments' }
 ]
 
 const isAdmin = computed(() => {
@@ -97,6 +98,7 @@ const activeComponent = computed(() => {
         case 'daily': return defineAsyncComponent(() => import('./dashboard/DashboardDaily.vue'))
         case 'orders': return defineAsyncComponent(() => import('./dashboard/DashboardOrders.vue'))
         case 'marketing': return defineAsyncComponent(() => import('./dashboard/DashboardMarketing.vue'))
+        case 'reviews': return defineAsyncComponent(() => import('./dashboard/DashboardReviews.vue'))
         case 'staff': return defineAsyncComponent(() => import('./dashboard/DashboardStaff.vue'))
         default: return null
     }

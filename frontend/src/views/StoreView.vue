@@ -4,7 +4,7 @@
 
     <header class="store-hero">
         <div class="hero-overlay"></div>
-        <div class="container hero-content">
+        <div class="container hero-content reveal">
             <h1 class="dancing-script">Aslan Experiences</h1>
             <p>Give the gift of luxury dining or book a special night with your loved ones.</p>
         </div>
@@ -20,7 +20,7 @@
 
     <main class="container store-main">
         <!-- 1. GIFT CARDS -->
-        <section class="store-section" id="giftcards">
+        <section class="store-section reveal" id="giftcards">
             <div class="section-intro">
                 <h2>Digital Gift Cards</h2>
                 <div class="header-divider"></div>
@@ -53,7 +53,7 @@
         </section>
 
         <!-- 2. SPECIAL EVENTS -->
-        <section class="store-section" id="events">
+        <section class="store-section reveal" id="events">
             <div class="section-intro">
                 <h2>Bespoke Events</h2>
                 <div class="header-divider"></div>
@@ -83,7 +83,7 @@
         </section>
 
         <!-- 3. MASTERCLASSES -->
-        <section class="store-section" id="classes">
+        <section class="store-section reveal" id="classes">
             <div class="section-intro">
                 <h2>Masterclasses</h2>
                 <div class="header-divider"></div>
@@ -120,16 +120,20 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useCartStore } from '@/store/cart'
 import NavBar from '@/components/NavBar.vue'
 import Footer from '@/components/Footer.vue'
 
 const router = useRouter()
+const cartStore = useCartStore()
 const activeSection = ref('giftcards')
 
 const giftCards = [
+    { name: 'Valentine\'s Day Gift Card', price: 30000, shortPrice: '30k', icon: 'fas fa-heart', description: '<strong>Valentine\'s Special:</strong> Romantic Dinner for Two, or Any 3 Platters of Choice.' },
     { name: 'Bronze Gift Card', price: 10000, shortPrice: '10k', icon: 'fas fa-gift', description: '<strong>Good for:</strong> Vegetarian Pizza, Beef Steak, or King Burger + Drink.' },
     { name: 'Silver Gift Card', price: 25000, shortPrice: '25k', icon: 'fas fa-gem', description: '<strong>Good for:</strong> Full Chicken & Chips, Big Grilled Fish, or 2x Pizzas.' },
-    { name: 'Gold VIP Gift Card', price: 50000, shortPrice: '50k', icon: 'fas fa-crown', description: '<strong>Good for:</strong> Aslan Master Plate (Fish/Chicken), Family Platters, or Full 3-Course Dinner.' }
+    { name: 'Gold VIP Gift Card', price: 50000, shortPrice: '50k', icon: 'fas fa-crown', description: '<strong>Good for:</strong> Aslan Master Plate (Fish/Chicken), Family Platters, or Full 3-Course Dinner.' },
+    { name: 'Platinum Elite Card', price: 100000, shortPrice: '100k', icon: 'fas fa-users', description: '<strong>Grand Celebration:</strong> All-inclusive premium feast designed for large groups (8-10 Pax). Perfect for big families.' }
 ]
 
 const events = [
@@ -169,15 +173,19 @@ const classes = [
 ]
 
 const handlePurchase = (item) => {
-    localStorage.setItem('orderName', item.name)
-    localStorage.setItem('orderPrice', item.price)
-    router.push('/payment')
+    cartStore.addItem({
+        ...item,
+        id: item.name.toLowerCase().replace(/\s+/g, '-')
+    })
+    cartStore.isCartOpen = true
 }
 </script>
 
 <style scoped>
 .store-page {
     min-height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
 }
 
 .store-hero {
@@ -204,7 +212,7 @@ const handlePurchase = (item) => {
 }
 
 .hero-content h1 {
-    font-size: 5rem;
+    font-size: clamp(3rem, 10vw, 5rem);
     color: var(--primary);
     margin-bottom: 15px;
 }
@@ -247,7 +255,7 @@ const handlePurchase = (item) => {
 }
 
 .store-main {
-    padding: 80px 5%;
+    padding: 80px 20px;
     max-width: 1400px;
 }
 
@@ -275,7 +283,7 @@ const handlePurchase = (item) => {
 
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
     gap: 40px;
 }
 
@@ -296,7 +304,7 @@ const handlePurchase = (item) => {
 
 .card-visual {
     height: 250px;
-    background: linear-gradient(135deg, rgba(5, 124, 172, 0.2), rgba(0, 255, 221, 0.2));
+    background: linear-gradient(135deg, rgba(30, 58, 47, 0.4), rgba(255, 215, 0, 0.2));
     display: flex;
     align-items: center;
     justify-content: center;
@@ -318,7 +326,7 @@ const handlePurchase = (item) => {
 .card-visual i {
     font-size: 6rem;
     color: var(--primary);
-    filter: drop-shadow(0 10px 20px rgba(0, 255, 221, 0.3));
+    filter: drop-shadow(0 10px 20px rgba(255, 215, 0, 0.3));
 }
 
 .value-badge {
@@ -392,9 +400,78 @@ const handlePurchase = (item) => {
 }
 
 @media (max-width: 600px) {
-    .store-hero h1 { font-size: 3rem; }
-    .product-grid { grid-template-columns: 1fr; }
-    .nav-container { gap: 10px; }
-    .cat-link { padding: 8px 15px; font-size: 0.8rem; }
+    .store-hero {
+        padding-top: 60px;
+        height: auto;
+        min-height: 350px;
+        padding-bottom: 40px;
+    }
+
+    .hero-content h1 { 
+        font-size: 11vw; /* Responsive font size */
+        line-height: 1.1;
+        padding: 0 5px;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        hyphens: auto;
+    }
+    
+    .hero-content p {
+        font-size: 0.95rem;
+        padding: 0 10px;
+    }
+
+    .nav-container { 
+        justify-content: flex-start;
+        overflow-x: auto;
+        padding: 0 15px;
+        gap: 10px;
+        -webkit-overflow-scrolling: touch;
+        white-space: nowrap;
+        scrollbar-width: none;
+    }
+    
+    .nav-container::-webkit-scrollbar {
+        display: none;
+    }
+
+    .cat-link { 
+        padding: 8px 16px; 
+        font-size: 0.85rem; 
+        flex-shrink: 0;
+    }
+
+    .section-intro h2 {
+        font-size: 1.8rem;
+        padding: 0 10px;
+    }
+    
+    .store-section {
+        margin-bottom: 50px;
+        scroll-margin-top: 120px;
+    }
+
+    .product-grid { 
+        grid-template-columns: 1fr; 
+        padding: 0; 
+        gap: 25px;
+    }
+    
+    .premium-store-card {
+        margin: 0 auto;
+        width: 100%;
+        max-width: 100%; /* Allow it to take full width */
+        border-radius: 20px;
+    }
+    
+    .store-main {
+        padding: 40px 15px; /* Reduce side padding */
+    }
+}
+
+@media (max-width: 380px) {
+    .hero-content h1 { font-size: 10vw; }
+    .section-intro h2 { font-size: 1.5rem; }
+    .card-info h3 { font-size: 1.3rem; }
 }
 </style>

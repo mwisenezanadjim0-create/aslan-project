@@ -1,4 +1,9 @@
 export const menuItems = [
+    // --- VALENTINE'S DAY SPECIALS ---
+    { id: 10001, name: "Romantic Dinner for Two", category: "valentine", price: "30000", description: "3-course meal with wine/juice, candlelit setting, and dessert.", icon: "fa-heart" },
+    { id: 10002, name: "Couple's Sharing Platter", category: "valentine", price: "25000", description: "Grilled meats, sides, and two drinks for a perfect date night.", icon: "fa-utensils" },
+    { id: 10003, name: "Chocolate Fondue Special", category: "valentine", price: "15000", description: "Melted chocolate with fresh fruits and marshmallows.", icon: "fa-heart" },
+    { id: 10004, name: "Love Cocktail Duo", category: "valentine", price: "8000", description: "Two signature romantic cocktails with rose garnish.", icon: "fa-cocktail" },
     // --- BREAKFAST (11 Items) ---
     { id: 101, name: "Maseduwane", category: "breakfast", price: "3500", description: "Freshly prepared breakfast special", icon: "fa-mug-hot" },
     { id: 102, name: "Plate of Fruits", category: "breakfast", price: "4000", description: "Assortment of fresh seasonal fruits", icon: "fa-apple-whole" },

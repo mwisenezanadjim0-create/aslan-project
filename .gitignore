@@ -1,18 +1,21 @@
+# Dependencies
 node_modules/
+dist/
 .env
-.DS_Store
-*.log
 
 # Logs
+*.log
 logs/
 auth_error.log
 
 # WhatsApp Session Data
-backend/baileys_auth_info/
-backend/.wwebjs_cache/
-backend/whatsapp-qr.png
+**/baileys_auth_info/
+**/.wwebjs_cache/
+**/whatsapp-qr.png
 
-# IDE
+# IDE and OS
 .vscode/
 .idea/
+.DS_Store
+Thumbs.db
 

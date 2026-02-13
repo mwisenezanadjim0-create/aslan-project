@@ -5,7 +5,7 @@
     <!-- Hero Section -->
     <section class="hero-section">
       <div class="hero-content-wrapper">
-        <div class="hero-text">
+        <div class="hero-text reveal">
           <div class="hero-logo-wrapper">
             <img src="@/assets/img/2.png" alt="Aslan Logo" class="hero-body-logo">
           </div>
@@ -14,14 +14,14 @@
              <span>Kitchen Status: <strong>15-20 min Wait Time</strong></span>
           </div>
           <div class="badge-wrapper">
-            <span class="badge">FAST & FREE DELIVERY</span>
+            <span class="badge valentine-badge"><i class="fas fa-heart"></i> VALENTINE'S DAY SPECIAL</span>
           </div>
           <h1 class="hero-title">
-            Your City's Best Food, <br/> 
-            <span class="highlight">Delivered Fast</span>
+            Love in Every <br/> 
+            <span class="highlight">Bite</span>
           </h1>
           <p class="hero-description">
-            Explore top local restaurants, track your order live, & enjoy premium dining experiences right at your door.
+            Celebrate love with our specially curated Valentine's menus, romantic dining experiences, and unforgettable moments.
           </p>
           
           <div class="hero-actions">
@@ -34,7 +34,7 @@
           </div>
         </div>
 
-        <div class="hero-visual">
+        <div class="hero-visual reveal">
           <div class="slider-wrapper">
             <div class="main-slider">
               <img v-for="(img, index) in slides" 
@@ -58,16 +58,17 @@
             </div>
             
             <!-- Floaties with better positioning -->
-            <div class="floating-item fi-1"><i class="fas fa-pizza-slice"></i></div>
-            <div class="floating-item fi-2"><i class="fas fa-burger"></i></div>
-            <div class="floating-item fi-3"><i class="fas fa-pepper-hot"></i></div>
+            <!-- Valentine's Floaties -->
+            <div class="floating-item fi-1"><i class="fas fa-heart"></i></div>
+            <div class="floating-item fi-2"><i class="fas fa-rose"></i></div>
+            <div class="floating-item fi-3"><i class="fas fa-gift"></i></div>
           </div>
         </div>
       </div>
     </section>
 
     <!-- Experience Section -->
-    <section class="experience-bar">
+    <section class="experience-bar reveal">
         <div class="bar-content">
             <div class="exp-item">
                 <span class="exp-num">500+</span>
@@ -87,7 +88,7 @@
     </section>
 
     <!-- Featured Products Section -->
-    <section class="featured-section" id="prod">
+    <section class="featured-section reveal" id="prod">
       <div class="container">
         <div class="section-header">
           <h2 class="dancing-script">Our Chef's Special</h2>
@@ -111,12 +112,76 @@
       </div>
     </section>
 
+    <!-- Testimonials Section -->
+    <section class="testimonials-section container">
+        <div class="section-header">
+          <h2 class="dancing-script">What Our Guests Say</h2>
+          <div class="header-divider"></div>
+          <p>Real stories from our beloved dining community.</p>
+        </div>
+        
+        <div class="testimonials-grid">
+          <!-- Real Reviews -->
+          <div 
+            v-for="r in realReviews" 
+            :key="r._id" 
+            class="testimonial-card card-premium"
+          >
+            <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+            <p class="testimonial-text">"{{ r.text }}"</p>
+            <div class="author-details">
+              <strong>{{ r.name }}</strong>
+              <div class="stars">
+                <i class="fas fa-star" v-for="i in Number(r.rating || 5)" :key="i"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Fallback Placeholders (Only show if no real reviews yet) -->
+          <template v-if="realReviews.length === 0">
+            <div class="testimonial-card card-premium">
+              <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+              <p class="testimonial-text">"The best pizza I've had in Kigali! The crust is perfect and the service is exceptionally fast."</p>
+              <div class="author-details">
+                <strong>John Doe</strong>
+                <div class="stars">
+                  <i class="fas fa-star" v-for="i in 5" :key="i"></i>
+                </div>
+              </div>
+            </div>
+            
+            <div class="testimonial-card card-premium">
+              <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+              <p class="testimonial-text">"Aslan Café has a vibe like no other. Great place for digital nomads and coffee lovers."</p>
+              <div class="author-details">
+                <strong>Sarah Kimani</strong>
+                <div class="stars">
+                  <i class="fas fa-star" v-for="i in 5" :key="i"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="testimonial-card card-premium">
+              <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+              <p class="testimonial-text">"Their live dashboard tracking is so cool. I always know exactly when my order is ready."</p>
+              <div class="author-details">
+                <strong>David Mutua</strong>
+                <div class="stars">
+                  <i class="fas fa-star" v-for="i in 5" :key="i"></i>
+                </div>
+              </div>
+            </div>
+          </template>
+        </div>
+    </section>
+
     <Footer />
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
+import axios from 'axios'
 import NavBar from '@/components/NavBar.vue'
 import Footer from '@/components/Footer.vue'
 import ProductCard from '@/components/ProductCard.vue'
@@ -132,6 +197,7 @@ import item6 from '@/assets/img/item6.png'
 const slides = [item1, item2, item3, item4, item5, item6]
 const currentSlide = ref(0)
 const progress = ref(0)
+const realReviews = ref([])
 let timer = null
 let progressTimer = null
 
@@ -164,8 +230,18 @@ const products = [
   { id: 6, name: "King Beef Burger", price: 8000, rating: 4.7, image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=500&q=80" }
 ]
 
+const fetchReviews = async () => {
+  try {
+    const { data } = await axios.get('/api/reviews')
+    realReviews.value = data.slice(0, 3) // Only show the latest 3
+  } catch (err) {
+    console.error("Failed to fetch reviews", err)
+  }
+}
+
 onMounted(() => {
     resetTimer()
+    fetchReviews()
 })
 
 onUnmounted(() => {
@@ -272,6 +348,13 @@ onUnmounted(() => {
     letter-spacing: 2px;
     text-transform: uppercase;
 }
+
+.valentine-badge {
+    background: rgba(255, 105, 180, 0.1);
+    border: 1px solid rgba(255, 105, 180, 0.3);
+    color: #ff69b4;
+}
+
 
 .hero-title {
     font-size: 5rem;
@@ -531,6 +614,60 @@ onUnmounted(() => {
     box-shadow: 0 15px 30px rgba(0, 255, 221, 0.3);
 }
 
+/* TESTIMONIALS SECTION */
+.testimonials-section {
+    padding: 120px 0;
+}
+
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    margin-top: 60px;
+}
+
+.testimonial-card {
+    padding: 45px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.quote-icon {
+    font-size: 2.5rem;
+    color: var(--primary);
+    opacity: 0.2;
+    margin-bottom: 25px;
+}
+
+.testimonial-text {
+    font-size: 1.15rem;
+    font-style: italic;
+    color: var(--text-dim);
+    line-height: 1.7;
+    margin-bottom: 35px;
+}
+
+.author-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 25px;
+}
+
+.author-details strong {
+    font-size: 1.1rem;
+    color: #fff;
+}
+
+.stars {
+    display: flex;
+    gap: 4px;
+    color: #ffae00;
+    font-size: 0.85rem;
+}
+
 @media (max-width: 1280px) {
     .hero-title { font-size: 4rem; }
     .slider-wrapper { width: 480px; height: 480px; }
@@ -658,7 +795,10 @@ onUnmounted(() => {
     }
 
     .slider-wrapper { 
+        width: 100%;
+        max-width: 400px;
         height: 400px; 
+        margin: 0 auto;
     }
 
     .floating-item {
@@ -705,7 +845,9 @@ onUnmounted(() => {
     }
 
     .slider-wrapper { 
-        height: 320px;
+        width: 100%;
+        max-width: 300px;
+        height: 300px;
         border-radius: 30px;
     }
 

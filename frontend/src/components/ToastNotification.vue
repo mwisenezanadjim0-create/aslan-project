@@ -127,4 +127,15 @@ const notificationStore = useNotificationStore()
   opacity: 0;
   transform: translateX(20px) scale(0.9);
 }
+@media (max-width: 480px) {
+  .toast-container {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+  }
+  .toast-item {
+    min-width: unset;
+    width: 100%;
+  }
+}
 </style>

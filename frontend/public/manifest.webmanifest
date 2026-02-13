@@ -1,0 +1,16 @@
+{
+    "name": "Aslan Café Luxe",
+    "short_name": "Aslan",
+    "description": "Premium Dining & Delivery Experience in Kigali",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#0b111e",
+    "theme_color": "#00ffdd",
+    "icons": [
+        {
+            "src": "favicon.ico",
+            "sizes": "64x64 32x32 24x24 16x16",
+            "type": "image/x-icon"
+        }
+    ]
+}

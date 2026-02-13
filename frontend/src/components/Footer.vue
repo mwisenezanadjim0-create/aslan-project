@@ -63,8 +63,8 @@ import { RouterLink } from 'vue-router'
 
 <style scoped>
 .main-footer {
-  background: linear-gradient(180deg, rgba(11, 15, 26, 0.95) 0%, rgba(5, 10, 20, 1) 100%);
-  border-top: 1px solid rgba(0, 255, 221, 0.1);
+  background: linear-gradient(180deg, rgba(5, 10, 15, 0.95) 0%, rgba(30, 58, 47, 0.3) 100%);
+  border-top: 1px solid rgba(255, 215, 0, 0.2);
   position: relative;
   padding: 80px 5% 30px;
   overflow: hidden;
@@ -78,7 +78,7 @@ import { RouterLink } from 'vue-router'
   height: 100px;
   background: linear-gradient(90deg, 
     transparent 0%, 
-    rgba(0, 255, 221, 0.03) 50%, 
+    rgba(255, 215, 0, 0.05) 50%, 
     transparent 100%
   );
   opacity: 0.5;
@@ -99,7 +99,7 @@ import { RouterLink } from 'vue-router'
   font-size: 2.8rem;
   color: var(--primary);
   margin-bottom: 20px;
-  text-shadow: 0 0 30px rgba(0, 255, 221, 0.3);
+  text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
 }
 
 .tagline {
@@ -135,7 +135,7 @@ import { RouterLink } from 'vue-router'
   color: #0b0f1a;
   border-color: var(--primary);
   transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0, 255, 221, 0.4);
+  box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
 }
 
 /* FOOTER SECTIONS */
@@ -223,8 +223,8 @@ import { RouterLink } from 'vue-router'
 .promo-badge {
   margin-top: 25px;
   padding: 10px 16px;
-  background: rgba(0, 255, 221, 0.05);
-  border: 1px solid rgba(0, 255, 221, 0.2);
+  background: rgba(255, 215, 0, 0.05);
+  border: 1px solid rgba(255, 215, 0, 0.2);
   border-radius: 10px;
   color: var(--primary);
   font-weight: 600;
@@ -236,7 +236,7 @@ import { RouterLink } from 'vue-router'
 }
 
 .promo-badge:hover {
-  background: rgba(0, 255, 221, 0.1);
+  background: rgba(255, 215, 0, 0.1);
   transform: translateX(4px);
 }
 

@@ -5,15 +5,26 @@
     <!-- Hero Section: More compact and focused -->
     <header class="menu-hero">
       <div class="hero-overlay"></div>
-      <div class="container hero-content">
+      <div class="hero-content hero-main-content">
         <h1 class="dancing-script">Our Exquisite Menu</h1>
         <p>Hand-crafted flavors for the modern palate.</p>
+        
+        <!-- Live Search Bar -->
+        <div class="search-container">
+          <i class="fas fa-search search-icon"></i>
+          <input 
+            v-model="searchQuery" 
+            type="text" 
+            placeholder="Search for your favorite dish..."
+            class="search-input"
+          />
+        </div>
       </div>
     </header>
 
     <!-- Sticky Category Bar: Better for navigation -->
     <div class="category-bar-wrapper">
-      <nav class="container category-bar">
+      <nav class="category-bar">
         <button 
           v-for="cat in categories" 
           :key="cat.id" 
@@ -27,8 +38,8 @@
       </nav>
     </div>
 
-    <main class="container menu-container">
-      <!-- Section Layout: Two-column grid for menu sections on large screens -->
+    <main class="menu-container menu-main-content">
+      <!-- Section Layout -->
       <div v-for="section in filteredMenu" :key="section.category" class="menu-section">
         <div class="section-title-wrapper">
             <h3 class="section-title">{{ section.title }}</h3>
@@ -40,6 +51,7 @@
             v-for="item in section.items" 
             :key="item.id" 
             class="menu-item-card"
+            :class="{ 'chef-choice-card': item.chefSpecial }"
           >
             <div v-if="item.chefSpecial" class="chef-badge">
               <i class="fas fa-crown"></i> Chef's Choice
@@ -57,7 +69,7 @@
                   <span class="price-val">{{ Number(item.price).toLocaleString() }}</span>
                 </div>
                 <button class="order-action-btn" @click="handleOrder(item)">
-                  Order <i class="fas fa-arrow-right"></i>
+                  Add to Cart <i class="fas fa-plus"></i>
                 </button>
               </div>
             </div>
@@ -68,8 +80,8 @@
       <div v-if="filteredMenu.length === 0" class="empty-menu">
         <div class="empty-icon">🍽️</div>
         <h3>No items found</h3>
-        <p>Try switching to another category.</p>
-        <button @click="currentCategory = 'all'" class="reset-btn">View All Menu</button>
+        <p>Try searching for something else or adjusting your filters.</p>
+        <button @click="resetFilters" class="reset-btn">View All Menu</button>
       </div>
     </main>
 
@@ -80,15 +92,19 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { useCartStore } from '@/store/cart'
 import NavBar from '@/components/NavBar.vue'
 import Footer from '@/components/Footer.vue'
 import { menuItems } from '@/data/menuItems'
 
 const router = useRouter()
+const cartStore = useCartStore()
 const currentCategory = ref('all')
+const searchQuery = ref('')
 
 const categories = [
   { id: 'all', label: 'All', icon: 'fas fa-utensils' },
+  { id: 'valentine', label: 'Valentine\'s Specials', icon: 'fas fa-heart' },
   { id: 'breakfast', label: 'Breakfast', icon: 'fas fa-coffee' },
   { id: 'snacks', label: 'Snacks', icon: 'fas fa-cookie' },
   { id: 'starter', label: 'Starters', icon: 'fas fa-leaf' },
@@ -98,6 +114,7 @@ const categories = [
 ]
 
 const titleMap = {
+  'valentine': 'Valentine\'s Day Specials',
   'breakfast': 'Sunrise Breakfast',
   'snacks': 'Quick Bites',
   'starter': 'Fresh Starters',
@@ -108,8 +125,17 @@ const titleMap = {
 
 const filteredMenu = computed(() => {
   let items = menuItems
+  
   if (currentCategory.value !== 'all') {
-    items = menuItems.filter(item => item.category === currentCategory.value)
+    items = items.filter(item => item.category === currentCategory.value)
+  }
+  
+  if (searchQuery.value) {
+    const query = searchQuery.value.toLowerCase()
+    items = items.filter(item => 
+      item.name.toLowerCase().includes(query) || 
+      item.description.toLowerCase().includes(query)
+    )
   }
 
   const sections = {}
@@ -124,16 +150,20 @@ const filteredMenu = computed(() => {
     sections[item.category].items.push(item)
   })
 
-  const categoryOrder = ['breakfast', 'snacks', 'starter', 'soup', 'main', 'sides', 'drinks']
+  const categoryOrder = ['valentine', 'breakfast', 'snacks', 'starter', 'soup', 'main', 'sides', 'drinks']
   return categoryOrder
     .filter(cat => sections[cat])
     .map(cat => sections[cat])
 })
 
 const handleOrder = (item) => {
-  localStorage.setItem('orderName', item.name)
-  localStorage.setItem('orderPrice', item.price)
-  router.push('/payment')
+  cartStore.addItem(item)
+  cartStore.isCartOpen = true
+}
+
+const resetFilters = () => {
+  currentCategory.value = 'all'
+  searchQuery.value = ''
 }
 
 onMounted(() => {
@@ -149,30 +179,34 @@ onMounted(() => {
 
 /* HERO SECTION */
 .menu-hero {
-    height: 40vh;
-    min-height: 300px;
-    background: url('https://images.unsplash.com/photo-1543353071-873f17a7a088?auto=format&fit=crop&w=1500&q=80') center/cover;
+    height: 48vh;
+    min-height: 400px;
+    background: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1500&q=80') center/cover;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding-top: 60px;
+    padding-top: 80px;
 }
 
 .hero-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to bottom, rgba(11, 15, 26, 0.8), rgba(11, 15, 26, 0.95));
+    background: linear-gradient(to bottom, rgba(11, 15, 26, 0.7), rgba(11, 15, 26, 0.95));
 }
 
-.hero-content {
+.hero-main-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 5%;
     position: relative;
     z-index: 10;
 }
 
 .hero-content h1 {
-    font-size: 4rem;
+    font-size: clamp(2.5rem, 8vw, 4.5rem);
     color: var(--primary);
     margin-bottom: 10px;
     text-shadow: 0 10px 30px rgba(0, 255, 221, 0.3);
@@ -183,14 +217,56 @@ onMounted(() => {
     color: rgba(255, 255, 255, 0.6);
     letter-spacing: 2px;
     text-transform: uppercase;
+    margin-bottom: 40px;
+}
+
+/* SEARCH BAR */
+.search-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
+    padding: 5px 25px;
+    display: flex;
+    align-items: center;
+    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.search-container:focus-within {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: var(--primary);
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 255, 221, 0.2);
+}
+
+.search-icon {
+    color: var(--primary);
+    font-size: 1.2rem;
+    margin-right: 15px;
+}
+
+.search-input {
+    background: none;
+    border: none;
+    color: #fff;
+    width: 100%;
+    padding: 15px 0;
+    font-size: 1rem;
+    outline: none;
+}
+
+.search-input::placeholder {
+    color: rgba(255, 255, 255, 0.3);
 }
 
 /* STICKY CATEGORY BAR */
 .category-bar-wrapper {
     position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(11, 15, 26, 0.8);
+    top: 75px;
+    z-index: 90;
+    background: rgba(11, 15, 26, 0.95);
     backdrop-filter: blur(20px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
@@ -198,31 +274,26 @@ onMounted(() => {
 .category-bar {
     display: flex;
     justify-content: center;
-    gap: 10px;
-    padding: 15px 0;
-    overflow-x: auto;
-    scrollbar-width: none; /* Hide scrollbar for clean look */
+    gap: 12px;
+    padding: 15px 5%;
+    flex-wrap: wrap;
 }
-
-.category-bar::-webkit-scrollbar { display: none; }
 
 .cat-btn {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.1);
     color: rgba(255, 255, 255, 0.7);
-    padding: 10px 20px;
+    padding: 10px 22px;
     border-radius: 12px;
     cursor: pointer;
     font-weight: 600;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     white-space: nowrap;
     display: flex;
     align-items: center;
     gap: 8px;
-    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: 0.3s;
 }
-
-.cat-btn i { color: var(--primary); font-size: 0.9rem; }
 
 .cat-btn:hover {
     background: rgba(0, 255, 221, 0.1);
@@ -232,17 +303,22 @@ onMounted(() => {
 
 .cat-btn.active {
     background: var(--primary);
-    color: #0b0f1a;
-    border-color: var(--primary);
-    box-shadow: 0 10px 25px rgba(0, 255, 221, 0.3);
+    color: #0b111e;
+    box-shadow: 0 10px 20px rgba(0, 255, 221, 0.3);
 }
-
-.cat-btn.active i { color: #0b0f1a; }
 
 /* MENU CONTENT */
 .menu-container {
-    padding: 60px 0 100px;
-    max-width: 1200px;
+    padding: 80px 0 120px;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.menu-main-content {
+    padding-left: 5%;
+    padding-right: 5%;
 }
 
 .menu-section {
@@ -250,8 +326,10 @@ onMounted(() => {
 }
 
 .section-title-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin-bottom: 40px;
-    position: relative;
 }
 
 .section-title {
@@ -262,7 +340,7 @@ onMounted(() => {
 }
 
 .title-accent {
-    width: 60px;
+    width: 80px;
     height: 4px;
     background: var(--primary);
     border-radius: 2px;
@@ -271,8 +349,8 @@ onMounted(() => {
 /* CARDS GRID */
 .menu-items-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 25px;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 30px;
 }
 
 .menu-item-card {
@@ -284,11 +362,16 @@ onMounted(() => {
     transition: all 0.4s ease;
 }
 
+.chef-choice-card {
+    border: 1px solid rgba(0, 255, 221, 0.2);
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.03), rgba(0, 255, 221, 0.01));
+}
+
 .menu-item-card:hover {
-    background: rgba(255, 255, 255, 0.05);
+    transform: translateY(-10px);
+    background: rgba(255, 255, 255, 0.04);
     border-color: var(--primary);
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
 }
 
 .chef-badge {
@@ -296,58 +379,45 @@ onMounted(() => {
     top: 0;
     right: 0;
     background: var(--primary);
-    color: #0b0f1a;
-    font-size: 0.7rem;
+    color: #0b111e;
+    font-size: 0.75rem;
     font-weight: 800;
-    padding: 6px 15px;
+    padding: 8px 18px;
     border-bottom-left-radius: 20px;
-    text-transform: uppercase;
 }
 
 .card-inner {
     padding: 30px;
-    min-height: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 20px;
 }
 
 .item-name {
-    font-size: 1.35rem;
+    font-size: 1.4rem;
     font-weight: 700;
-    color: #fff;
     margin-bottom: 12px;
 }
 
 .item-desc {
     color: rgba(255, 255, 255, 0.5);
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     line-height: 1.6;
-    margin-bottom: 0;
 }
 
 .item-meta {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    padding-top: 20px;
-    margin-top: auto;
-}
-
-.currency {
-    display: block;
-    font-size: 0.75rem;
-    font-weight: 800;
-    color: var(--primary);
-    margin-bottom: -4px;
 }
 
 .price-val {
     font-size: 1.5rem;
     font-weight: 800;
-    color: #fff;
 }
 
 .order-action-btn {
@@ -357,142 +427,20 @@ onMounted(() => {
     padding: 10px 20px;
     border-radius: 12px;
     font-weight: 700;
-    font-size: 0.9rem;
     cursor: pointer;
     transition: 0.3s;
-    display: flex;
-    align-items: center;
-    gap: 8px;
 }
 
 .order-action-btn:hover {
     background: var(--primary);
-    color: #0b0f1a;
-}
-
-/* EMPTY STATE */
-.empty-menu {
-    text-align: center;
-    padding: 80px 0;
-}
-
-.empty-icon { font-size: 4rem; margin-bottom: 20px; }
-
-.reset-btn {
-    background: var(--primary);
-    border: none;
-    color: #0b0f1a;
-    padding: 12px 30px;
-    border-radius: 50px;
-    font-weight: 700;
-    margin-top: 25px;
-    cursor: pointer;
+    color: #0b111e;
 }
 
 @media (max-width: 768px) {
-    .menu-hero {
-        height: 35vh;
-        min-height: 250px;
-        padding-top: 70px;
-    }
-
-    .hero-content h1 { 
-        font-size: 2.2rem; 
-        margin-bottom: 8px;
-    }
-    
-    .hero-content p {
-        font-size: 0.75rem;
-        letter-spacing: 1px;
-    }
-
-    .category-bar-wrapper {
-        position: sticky;
-        top: 0;
-    }
-
-    .category-bar { 
-        justify-content: flex-start; 
-        padding: 12px 15px;
-        gap: 8px;
-    }
-
-    .cat-btn {
-        padding: 8px 14px;
-        font-size: 0.8rem;
-        gap: 6px;
-    }
-
-    .cat-btn i {
-        font-size: 0.8rem;
-    }
-
-    .menu-container {
-        padding: 40px 0 80px;
-    }
-
-    .menu-section {
-        margin-bottom: 50px;
-    }
-
-    .section-title {
-        font-size: 1.5rem;
-        word-break: break-word;
-    }
-
-    .menu-items-grid { 
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-
-    .menu-item-card {
-        margin-bottom: 10px;
-    }
-
-    .card-inner {
-        padding: 20px;
-        gap: 15px;
-    }
-
-    .item-name {
-        font-size: 1.2rem;
-        margin-bottom: 8px;
-    }
-
-    .item-desc {
-        font-size: 0.85rem;
-        line-height: 1.5;
-    }
-
-    .item-meta {
-        padding-top: 15px;
-        gap: 10px;
-        flex-wrap: wrap;
-    }
-
-    .price-val {
-        font-size: 1.3rem;
-    }
-
-    .order-action-btn {
-        padding: 10px 18px;
-        font-size: 0.85rem;
-        white-space: nowrap;
-    }
-}
-
-@media (max-width: 480px) {
-    .hero-content h1 { 
-        font-size: 1.8rem;
-    }
-
-    .section-title {
-        font-size: 1.4rem;
-    }
-
-    .cat-btn {
-        padding: 7px 12px;
-        font-size: 0.75rem;
-    }
+    .menu-main-content { padding-left: 20px; padding-right: 20px; }
+    .section-title { font-size: 1.8rem; }
+    .menu-items-grid { grid-template-columns: 1fr; }
+    .item-meta { flex-direction: column; gap: 15px; text-align: center; }
+    .order-action-btn { width: 100%; }
 }
 </style>
