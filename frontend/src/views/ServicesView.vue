@@ -256,8 +256,17 @@ onMounted(() => {
 }
 
 @media (max-width: 768px) {
-  .header-content h1 { font-size: 3.5rem; }
-  .services-header { height: 50vh; }
-  .services-grid { margin-top: 0; padding: 60px 20px; }
+  .header-content h1 { font-size: 3rem; }
+  .header-content p { font-size: 1.1rem; }
+  .services-header { height: 45vh; }
+  .services-grid { margin-top: -50px; padding: 40px 15px; grid-template-columns: 1fr; }
+  .service-card { padding: 30px 20px; }
+  .service-card h3 { font-size: 1.5rem; }
+}
+
+@media (max-width: 480px) {
+  .header-content h1 { font-size: 2.5rem; }
+  .services-header { height: 40vh; }
+  .services-grid { margin-top: -30px; }
 }
 </style>

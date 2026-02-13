@@ -286,8 +286,20 @@ textarea {
   to { transform: scale(1) translateY(0); opacity: 1; }
 }
 
+@media (max-width: 768px) {
+  .modal-content {
+    padding: 30px 20px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 20px;
+  }
+  .booking-header h2 { font-size: 2rem; }
+  .form-row { grid-template-columns: 1fr; gap: 10px; }
+  .submit-btn { padding: 15px; }
+}
+
 @media (max-width: 480px) {
-  .form-row { grid-template-columns: 1fr; }
-  .modal-content { padding: 30px 20px; }
+  .booking-header h2 { font-size: 1.8rem; }
+  .modal-content { padding: 25px 15px; }
 }
 </style>
