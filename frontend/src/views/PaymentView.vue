@@ -236,7 +236,7 @@ const screenshotFile = ref(null)
 const orderId = ref(Math.floor(1000 + Math.random() * 9000))
 
 const bossNumber = "0785975691"
-const ussdCode = computed(() => `*181*1*1*${bossNumber}*${orderPrice.value || 0}#`)
+const ussdCode = computed(() => `*182*1*1*${bossNumber}*${orderPrice.value || 0}#`)
 
 const receiptDate = computed(() => {
     return new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
