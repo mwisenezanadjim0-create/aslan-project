@@ -26,6 +26,10 @@
             <span class="item-icon"><i class="fas fa-store"></i></span>
             Restaurant
         </RouterLink>
+        <RouterLink to="/services" class="nav-item" @click="isMenuOpen = false">
+            <span class="item-icon"><i class="fas fa-concierge-bell"></i></span>
+            Services
+        </RouterLink>
         <button class="nav-item reserve-btn" @click="openBooking">
             <span class="item-icon"><i class="fas fa-calendar-check"></i></span>
             Book Table

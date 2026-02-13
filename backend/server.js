@@ -15,6 +15,7 @@ import momoRoutes from "./routes/momo.js";
 import { connectToWhatsApp } from "./utils/whatsapp.js"; // Initialize WhatsApp connection
 import { logError, logInfo } from "./utils/logger.js";
 import reviewsRoutes from "./routes/reviews.js";
+import bookingsRoutes from "./routes/bookings.js";
 
 const app = express();
 
@@ -51,6 +52,7 @@ app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/momo", momoRoutes);
 app.use("/api/reviews", reviewsRoutes);
+app.use("/api/bookings", bookingsRoutes);
 
 // Serve Frontend Static Files
 const frontendDist = path.join(__dirname, "../frontend/dist");

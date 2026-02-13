@@ -9,6 +9,7 @@ import DashboardView from '../views/DashboardView.vue'
 import CardGeneratorView from '../views/CardGeneratorView.vue'
 import StoreView from '../views/StoreView.vue'
 import RestaurantView from '../views/RestaurantView.vue'
+import ServicesView from '../views/ServicesView.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -59,6 +60,11 @@ const router = createRouter({
             path: '/restaurant',
             name: 'restaurant',
             component: RestaurantView
+        },
+        {
+            path: '/services',
+            name: 'services',
+            component: ServicesView
         },
         // Catch-all route
         {

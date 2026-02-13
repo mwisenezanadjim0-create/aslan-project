@@ -5,8 +5,8 @@
         <button class="close-btn" @click="$emit('close')">&times;</button>
         
         <div class="booking-header">
-          <h2 class="dancing-script">Reserve Your Table</h2>
-          <p>Join us for an unforgettable dining experience.</p>
+          <h2 class="dancing-script">{{ serviceTitle }}</h2>
+          <p>{{ serviceSubtitle }}</p>
         </div>
 
         <form @submit.prevent="handleSubmit" class="booking-form">
@@ -22,15 +22,16 @@
             </div>
             <div class="form-group">
               <label>Time</label>
-              <input v-model="form.time" type="time" required />
+              <input v-model="form.time" type="time" :required="isTimeRequired" />
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group">
-              <label>Guests</label>
-              <select v-model="form.guests">
-                <option v-for="n in 10" :key="n" :value="n">{{ n }} Person{{ n > 1 ? 's' : '' }}</option>
+              <label>{{ guestsLabel }}</label>
+              <input v-if="serviceType === 'Catering' || serviceType === 'Event'" v-model="form.guests" type="number" placeholder="Estimated" />
+              <select v-else v-model="form.guests">
+                <option v-for="n in [2,4,6,8,10,12,15,20]" :key="n" :value="n">{{ n }} Person{{ n > 1 ? 's' : '' }}</option>
               </select>
             </div>
             <div class="form-group">
@@ -40,12 +41,12 @@
           </div>
 
           <div class="form-group">
-            <label>Special Requests</label>
-            <textarea v-model="form.notes" placeholder="Birthday, anniversary, allergies..."></textarea>
+            <label>Additional Details</label>
+            <textarea v-model="form.notes" :placeholder="detailsPlaceholder"></textarea>
           </div>
 
           <button type="submit" class="submit-btn" :disabled="loading">
-            <span v-if="!loading">Confirm Reservation</span>
+            <span v-if="!loading">Send Inquiry</span>
             <i v-else class="fas fa-spinner fa-spin"></i>
           </button>
         </form>
@@ -55,11 +56,16 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
+import axios from 'axios'
 import { useNotificationStore } from '@/store/notification'
 
-defineProps({
-  isOpen: Boolean
+const props = defineProps({
+  isOpen: Boolean,
+  serviceType: {
+    type: String,
+    default: 'Reservation'
+  }
 })
 
 const emit = defineEmits(['close'])
@@ -75,18 +81,69 @@ const form = reactive({
   notes: ''
 })
 
+const serviceTitle = computed(() => {
+  switch (props.serviceType) {
+    case 'Catering': return 'Outside Catering'
+    case 'Conference': return 'Meeting & Conferences'
+    case 'Event': return 'Events Booking'
+    case 'Inquiry': return 'Digital Inquiry'
+    default: return 'Online Reservation'
+  }
+})
+
+const serviceSubtitle = computed(() => {
+  switch (props.serviceType) {
+    case 'Catering': return 'Let us bring the Aslan experience to your location.'
+    case 'Conference': return 'Premium spaces for your professional gatherings.'
+    case 'Event': return 'Celebrate your special moments with us.'
+    case 'Inquiry': return 'Have a question? We are here to help.'
+    default: return 'Join us for an unforgettable dining experience.'
+  }
+})
+
+const isTimeRequired = computed(() => props.serviceType !== 'Catering' && props.serviceType !== 'Inquiry')
+const guestsLabel = computed(() => (props.serviceType === 'Catering' || props.serviceType === 'Event') ? 'Estimated Guests' : 'Guests')
+const detailsPlaceholder = computed(() => {
+  switch (props.serviceType) {
+    case 'Catering': return 'Event location, menu preferences...'
+    case 'Event': return 'Type of event, decoration needs...'
+    case 'Inquiry': return 'What can we help you with?'
+    default: return 'Special requests, allergies...'
+  }
+})
+
 const handleSubmit = async () => {
+  if (loading.value) return
   loading.value = true
-  // Simulate API call
-  await new Promise(resolve => setTimeout(resolve, 1500))
   
-  notificationStore.add({
-    type: 'success',
-    message: `Table for ${form.guests} reserved successfully for ${form.date} at ${form.time}!`
-  })
-  
-  loading.value = false
-  emit('close')
+  try {
+    await axios.post('/api/bookings/submit', {
+      serviceType: props.serviceType,
+      customerName: form.name,
+      customerPhone: form.phone,
+      date: form.date,
+      time: form.time,
+      guests: form.guests,
+      details: form.notes
+    })
+
+    notificationStore.success(`Your ${props.serviceType} inquiry has been sent to our team!`)
+    emit('close')
+    
+    // Clear form
+    form.name = ''
+    form.date = ''
+    form.time = ''
+    form.guests = 2
+    form.phone = ''
+    form.notes = ''
+    
+  } catch (err) {
+    notificationStore.error("Failed to submit inquiry. Please try again.")
+    console.error(err)
+  } finally {
+    loading.value = false
+  }
 }
 </script>
 
