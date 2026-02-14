@@ -104,7 +104,6 @@ const searchQuery = ref('')
 
 const categories = [
   { id: 'all', label: 'All', icon: 'fas fa-utensils' },
-  { id: 'valentine', label: 'Valentine\'s Specials', icon: 'fas fa-heart' },
   { id: 'breakfast', label: 'Breakfast', icon: 'fas fa-coffee' },
   { id: 'snacks', label: 'Snacks', icon: 'fas fa-cookie' },
   { id: 'starter', label: 'Starters', icon: 'fas fa-leaf' },
@@ -114,7 +113,6 @@ const categories = [
 ]
 
 const titleMap = {
-  'valentine': 'Valentine\'s Day Specials',
   'breakfast': 'Sunrise Breakfast',
   'snacks': 'Quick Bites',
   'starter': 'Fresh Starters',
@@ -150,7 +148,7 @@ const filteredMenu = computed(() => {
     sections[item.category].items.push(item)
   })
 
-  const categoryOrder = ['valentine', 'breakfast', 'snacks', 'starter', 'soup', 'main', 'sides', 'drinks']
+  const categoryOrder = ['breakfast', 'snacks', 'starter', 'soup', 'main', 'sides', 'drinks']
   return categoryOrder
     .filter(cat => sections[cat])
     .map(cat => sections[cat])

@@ -129,7 +129,6 @@ const cartStore = useCartStore()
 const activeSection = ref('giftcards')
 
 const giftCards = [
-    { name: 'Valentine\'s Day Gift Card', price: 30000, shortPrice: '30k', icon: 'fas fa-heart', description: '<strong>Valentine\'s Special:</strong> Romantic Dinner for Two, or Any 3 Platters of Choice.' },
     { name: 'Bronze Gift Card', price: 10000, shortPrice: '10k', icon: 'fas fa-gift', description: '<strong>Good for:</strong> Vegetarian Pizza, Beef Steak, or King Burger + Drink.' },
     { name: 'Silver Gift Card', price: 25000, shortPrice: '25k', icon: 'fas fa-gem', description: '<strong>Good for:</strong> Full Chicken & Chips, Big Grilled Fish, or 2x Pizzas.' },
     { name: 'Gold VIP Gift Card', price: 50000, shortPrice: '50k', icon: 'fas fa-crown', description: '<strong>Good for:</strong> Aslan Master Plate (Fish/Chicken), Family Platters, or Full 3-Course Dinner.' },

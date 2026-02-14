@@ -13,15 +13,12 @@
              <div class="status-indicator ripple"></div>
              <span>Kitchen Status: <strong>15-20 min Wait Time</strong></span>
           </div>
-          <div class="badge-wrapper">
-            <span class="badge valentine-badge"><i class="fas fa-heart"></i> VALENTINE'S DAY SPECIAL</span>
-          </div>
           <h1 class="hero-title">
-            Love in Every <br/> 
-            <span class="highlight">Bite</span>
+            The Art of <br/> 
+            <span class="highlight">Fine Dining</span>
           </h1>
           <p class="hero-description">
-            Celebrate love with our specially curated Valentine's menus, romantic dining experiences, and unforgettable moments.
+            Experience the perfect blend of artisanal coffee, gourmet cuisine, and a premium atmosphere designed for your comfort.
           </p>
           
           <div class="hero-actions">
@@ -58,10 +55,9 @@
             </div>
             
             <!-- Floaties with better positioning -->
-            <!-- Valentine's Floaties -->
-            <div class="floating-item fi-1"><i class="fas fa-heart"></i></div>
-            <div class="floating-item fi-2"><i class="fas fa-rose"></i></div>
-            <div class="floating-item fi-3"><i class="fas fa-gift"></i></div>
+            <div class="floating-item fi-1"><i class="fas fa-coffee"></i></div>
+            <div class="floating-item fi-2"><i class="fas fa-pizza-slice"></i></div>
+            <div class="floating-item fi-3"><i class="fas fa-crown"></i></div>
           </div>
         </div>
       </div>
@@ -333,27 +329,7 @@ onUnmounted(() => {
     100% { width: 30px; height: 30px; opacity: 0; }
 }
 
-.badge-wrapper {
-    margin-bottom: 30px;
-}
 
-.badge {
-    padding: 8px 18px;
-    background: rgba(0, 255, 221, 0.1);
-    border: 1px solid rgba(0, 255, 221, 0.2);
-    color: var(--primary);
-    border-radius: 50px;
-    font-size: 0.85rem;
-    font-weight: 800;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-}
-
-.valentine-badge {
-    background: rgba(255, 105, 180, 0.1);
-    border: 1px solid rgba(255, 105, 180, 0.3);
-    color: #ff69b4;
-}
 
 
 .hero-title {
