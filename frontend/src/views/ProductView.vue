@@ -93,14 +93,31 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useCartStore } from '@/store/cart'
+import axios from 'axios'
 import NavBar from '@/components/NavBar.vue'
 import Footer from '@/components/Footer.vue'
-import { menuItems } from '@/data/menuItems'
 
 const router = useRouter()
 const cartStore = useCartStore()
 const currentCategory = ref('all')
 const searchQuery = ref('')
+const menuItems = ref([])
+const isLoading = ref(true)
+
+const fetchProducts = async () => {
+  try {
+    const res = await axios.get('/api/products')
+    // Map _id to id for compatibility with existing store/cart logic
+    menuItems.value = res.data.map(item => ({
+        ...item,
+        id: item._id
+    }))
+  } catch (err) {
+    console.error('Failed to fetch menu:', err)
+  } finally {
+    isLoading.value = false
+  }
+}
 
 const categories = [
   { id: 'all', label: 'All', icon: 'fas fa-utensils' },
@@ -122,7 +139,7 @@ const titleMap = {
 }
 
 const filteredMenu = computed(() => {
-  let items = menuItems
+  let items = menuItems.value
   
   if (currentCategory.value !== 'all') {
     items = items.filter(item => item.category === currentCategory.value)
@@ -164,8 +181,9 @@ const resetFilters = () => {
   searchQuery.value = ''
 }
 
-onMounted(() => {
+onMounted(async () => {
   window.scrollTo(0, 0)
+  await fetchProducts()
 })
 </script>
 
