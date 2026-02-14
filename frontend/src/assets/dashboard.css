@@ -10,7 +10,7 @@ body {
   background-image: linear-gradient(80deg, rgb(5, 124, 172), rgb(199, 10, 114));
   font-family: 'Poppins', sans-serif;
   color: #fff;
-  overflow: hidden;
+  overflow-x: hidden;
   /* Desktop view usually fixed height with sidebar */
 }
 
@@ -100,13 +100,12 @@ body {
   }
 }
 
-/* LAYOUT */
 .layout {
   position: relative;
   z-index: 10;
   display: flex;
   height: 100vh;
-  width: 100vw;
+  width: 100%;
   backdrop-filter: blur(5px);
 }
 
@@ -122,9 +121,19 @@ body {
   transition: all 0.3s ease;
 }
 
-.sidebar-header {
-  text-align: center;
-  margin-bottom: 50px;
+.sidebar-overlay {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .sidebar-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+  }
 }
 
 .brand {
@@ -209,9 +218,13 @@ body {
 }
 
 #welcome {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 300;
   margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 /* DASHBOARD SECTIONS (Glassmorphism Cards) */
@@ -366,30 +379,42 @@ li:hover {
   }
 
   body {
+    overflow: auto;
+  }
+
+  .dashboard-page {
+    height: auto;
+    min-height: 100vh;
     overflow-y: auto;
+  }
+
+  .layout {
+    display: block;
+    height: auto;
   }
 
   .sidebar {
     position: fixed;
-    left: -280px;
+    left: -100%;
     top: 0;
-    width: 280px;
+    width: 80%;
+    max-width: 300px;
     height: 100vh;
-    z-index: 1000;
-    background: rgba(10, 10, 10, 0.95);
+    z-index: 1001;
+    background: #0f172a;
+    box-shadow: 20px 0 50px rgba(0, 0, 0, 0.5);
+    padding: 30px 15px;
   }
 
   .sidebar.active {
     left: 0;
   }
 
-  .layout {
-    flex-direction: column;
-  }
-
   .content {
-    padding: 20px;
-    margin-top: 70px;
+    padding: 20px 15px;
+    margin-top: 60px;
+    height: auto;
+    overflow: visible;
   }
 
   .stats-grid {
@@ -402,16 +427,24 @@ li:hover {
   }
 
   #welcome {
-    font-size: 1.8rem;
+    font-size: 1.4rem;
     text-align: center;
+    margin: 10px 0;
+    white-space: normal;
   }
 
   .top-bar {
     justify-content: center;
+    margin-bottom: 20px;
   }
 
   .glass-card {
-    padding: 20px;
+    padding: 20px 15px;
+    border-radius: 16px;
+  }
+
+  .brand {
+    font-size: 2.5rem;
   }
 }
 

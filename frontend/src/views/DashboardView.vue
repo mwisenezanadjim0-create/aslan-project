@@ -15,6 +15,9 @@
     </div>
 
     <div class="layout">
+      <!-- SIDEBAR OVERLAY -->
+      <div v-if="isSidebarActive" class="sidebar-overlay" @click="isSidebarActive = false"></div>
+
       <!-- SIDEBAR -->
       <aside class="sidebar" :class="{ active: isSidebarActive }">
         <div class="sidebar-header" @click="$router.push('/')" style="cursor: pointer;">
