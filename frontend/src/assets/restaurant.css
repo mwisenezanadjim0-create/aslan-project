@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Dancing+Script:wght@700&display=swap');
 
 :root {
-    --primary: #00ffdd;
+    --primary: var(--primary);
     --secondary: #057cac;
     --dark: #0f172a;
     --glass: rgba(255, 255, 255, 0.05);

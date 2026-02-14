@@ -7,9 +7,10 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  background-image: linear-gradient(80deg, rgb(5, 124, 172), rgb(199, 10, 114));
+  background-color: var(--dark-bg);
+  background-image: var(--gradient-mesh);
   font-family: 'Poppins', sans-serif;
-  color: #fff;
+  color: var(--text-light);
   overflow-x: hidden;
   /* Desktop view usually fixed height with sidebar */
 }
@@ -20,11 +21,12 @@ body {
   height: 800px;
   width: 800px;
   border-radius: 50%;
-  background-image: linear-gradient(80deg, rgb(5, 124, 172), rgb(43, 247, 202, 0.5));
+  background-image: linear-gradient(80deg, var(--primary), transparent);
   filter: blur(80px);
   animation: down 40s infinite;
   z-index: 0;
   pointer-events: none;
+  opacity: 0.15;
 }
 
 #down {
@@ -33,11 +35,12 @@ body {
   height: 500px;
   width: 500px;
   border-radius: 50%;
-  background-image: linear-gradient(80deg, rgba(245, 207, 82, 0.8), rgba(199, 10, 144));
+  background-image: linear-gradient(80deg, var(--accent), transparent);
   filter: blur(80px);
   animation: up 30s infinite;
   z-index: 0;
   pointer-events: none;
+  opacity: 0.15;
 }
 
 #left {
@@ -140,7 +143,7 @@ body {
   font-family: 'Dancing Script', cursive;
   font-size: 3.5rem;
   margin: 0;
-  background: linear-gradient(to right, #fff, #ffd700);
+  background: linear-gradient(to right, #fff, var(--accent));
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -189,7 +192,7 @@ body {
 
 .sidebar button.active {
   background: rgba(0, 255, 221, 0.15);
-  border-left: 4px solid #00ffdd;
+  border-left: 4px solid var(--primary);
 }
 
 .logout {
@@ -259,7 +262,7 @@ body {
 .glass-card h3 {
   font-size: 1.8rem;
   margin-bottom: 25px;
-  color: #00ffdd;
+  color: var(--primary);
 }
 
 /* FORMS & INPUTS */
@@ -284,12 +287,12 @@ select {
 input:focus,
 select:focus {
   outline: none;
-  border-color: #00ffdd;
+  border-color: var(--primary);
   background: rgba(0, 0, 0, 0.3);
 }
 
 .action-btn {
-  background: linear-gradient(135deg, #057cac, #00ffdd);
+  background: linear-gradient(135deg, #057cac, var(--primary));
   color: #fff;
   border: none;
   padding: 15px 30px;
@@ -365,7 +368,7 @@ li:hover {
 .stat-value {
   font-size: 2.5rem;
   font-weight: 600;
-  color: #00ffdd;
+  color: var(--primary);
 }
 
 /* RESPONSIVE */

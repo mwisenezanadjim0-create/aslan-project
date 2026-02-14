@@ -15,7 +15,7 @@
       <ul>
         <li v-for="m in marketing" :key="m._id">
             <span>{{ m.date }}</span> 
-            <span style="color:#00ffdd">{{ Number(m.cost).toLocaleString() }} RWF</span>
+            <span style="color:var(--primary)">{{ Number(m.cost).toLocaleString() }} RWF</span>
         </li>
         <li v-if="marketing.length === 0" style="opacity:0.5; justify-content:center;">No marketing records</li>
       </ul>

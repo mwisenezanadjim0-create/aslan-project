@@ -198,7 +198,7 @@
       <p style="font-size: 1rem; color: #fff; margin-bottom: 5px;">
         Questions about your order?
       </p>
-      <a href="tel:250785975691" style="font-size: 1.2rem; color: #00ffdd; text-decoration: none; font-weight: bold;">
+      <a href="tel:250785975691" style="font-size: 1.2rem; color: var(--primary); text-decoration: none; font-weight: bold;">
         <i class="fas fa-phone-alt"></i> 0785975691
       </a>
     </footer>
@@ -431,7 +431,7 @@ header { width: 100%; }
     text-align: center;
 }
 
-.upload-section h3 { color: #00ffdd; font-size: 1.1rem; margin-bottom: 10px; }
+.upload-section h3 { color: var(--primary); font-size: 1.1rem; margin-bottom: 10px; }
 .upload-section p { font-size: 0.9rem; opacity: 0.7; margin-bottom: 20px; }
 
 .file-input-label {
@@ -447,17 +447,17 @@ header { width: 100%; }
     margin-bottom: 20px;
 }
 
-.file-input-label:hover { border-color: #00ffdd; background: rgba(0, 255, 221, 0.05); }
-.file-input-label.hasFile { border-color: #00ffdd; border-style: solid; background: rgba(0, 255, 221, 0.1); }
+.file-input-label:hover { border-color: var(--primary); background: rgba(0, 255, 221, 0.05); }
+.file-input-label.hasFile { border-color: var(--primary); border-style: solid; background: rgba(0, 255, 221, 0.1); }
 
-.file-input-label i { font-size: 2rem; color: #00ffdd; }
+.file-input-label i { font-size: 2rem; color: var(--primary); }
 .file-input-label span { font-size: 0.9rem; font-weight: 600; }
 
 .hidden-input { display: none; }
 
 .verify-btn {
     width: 100%;
-    background: #00ffdd;
+    background: var(--primary);
     color: #0f172a;
     height: 60px;
     border-radius: 20px;

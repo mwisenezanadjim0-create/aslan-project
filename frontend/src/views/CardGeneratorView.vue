@@ -2,7 +2,7 @@
   <div class="generator-page">
     <h1>🔒 Admin Pass Generator</h1>
     <p style="opacity: 0.7; margin-bottom: 20px;">Generate Digital Passes for confirmed WhatsApp payments.</p>
-    <RouterLink to="/dashboard" style="color: #00ffdd; text-decoration: none; margin-bottom: 30px; display: inline-block;">
+    <RouterLink to="/dashboard" style="color: var(--primary); text-decoration: none; margin-bottom: 30px; display: inline-block;">
         <i class="fas fa-arrow-left"></i> Back to Dashboard
     </RouterLink>
 
@@ -216,7 +216,7 @@ select {
 label {
     display: block;
     margin-bottom: 5px;
-    color: #00ffdd;
+    color: var(--primary);
     font-weight: bold;
 }
 
@@ -238,9 +238,9 @@ label {
 }
 
 .theme-btn.active {
-    background: #00ffdd;
+    background: var(--primary);
     color: #000;
-    border-color: #00ffdd;
+    border-color: var(--primary);
 }
 
 .order-btn {
@@ -248,7 +248,7 @@ label {
     padding: 15px;
     border-radius: 10px;
     border: none;
-    background: #00ffdd;
+    background: var(--primary);
     color: #0f172a;
     font-weight: bold;
     cursor: pointer;

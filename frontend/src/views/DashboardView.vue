@@ -55,7 +55,7 @@
       <main class="content">
         <header class="top-bar">
           <h1 id="welcome">
-            Welcome back, <span style="color:#00ffdd; font-weight:600;">{{ authStore.user?.username }}</span>
+            Welcome back, <span style="color:var(--primary); font-weight:600;">{{ authStore.user?.username }}</span>
           </h1>
         </header>
 

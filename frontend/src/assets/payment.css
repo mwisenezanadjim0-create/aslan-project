@@ -56,7 +56,7 @@ header {
 }
 
 .back-btn {
-  color: #00ffdd;
+  color: var(--primary);
   text-decoration: none;
   font-size: 0.9rem;
   font-weight: 600;
@@ -68,7 +68,7 @@ header {
 }
 
 .back-btn:hover {
-  background: #00ffdd;
+  background: var(--primary);
   color: #0f172a;
   transform: translateX(-5px);
 }
@@ -164,7 +164,7 @@ header {
 
 .payment-header i {
   font-size: 1.5rem;
-  color: #00ffdd;
+  color: var(--primary);
 }
 
 .payment-header h2 {
@@ -413,7 +413,7 @@ header {
 
 .input-group input:focus {
   background: rgba(255, 255, 255, 0.1);
-  border-color: #00ffdd;
+  border-color: var(--primary);
   box-shadow: 0 0 20px rgba(0, 255, 221, 0.15);
 }
 
@@ -439,7 +439,7 @@ header {
 }
 
 .pin-digit:focus {
-  border-color: #00ffdd;
+  border-color: var(--primary);
   background: rgba(0, 255, 221, 0.05);
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(0, 255, 221, 0.1);
@@ -479,7 +479,7 @@ header {
 }
 
 .confirm-btn {
-  background: #00ffdd;
+  background: var(--primary);
   color: #0f172a;
   height: 60px;
   border-radius: 20px;
@@ -505,13 +505,13 @@ header {
 }
 
 .note b {
-  color: #00ffdd;
+  color: var(--primary);
 }
 
 .download-receipt-btn {
   width: 100%;
   margin-bottom: 20px;
-  background: #00ffdd;
+  background: var(--primary);
   color: #0f172a;
   padding: 12px;
   border-radius: 12px;
@@ -648,7 +648,7 @@ header {
 .digital-pass {
   background: #0f172a;
   /* Solid Dark Background */
-  border: 2px solid #00ffdd;
+  border: 2px solid var(--primary);
   border-radius: 20px;
   overflow: hidden;
   position: relative;
@@ -669,14 +669,14 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px solid #00ffdd;
+  border-bottom: 2px solid var(--primary);
 }
 
 .pass-type {
   font-size: 0.9rem;
   font-weight: 900;
   letter-spacing: 2px;
-  color: #00ffdd;
+  color: var(--primary);
   text-transform: uppercase;
 }
 
@@ -709,7 +709,7 @@ header {
 }
 
 .pass-owner span {
-  color: #00ffdd;
+  color: var(--primary);
   font-weight: 900;
   font-size: 1.4rem;
   text-transform: uppercase;

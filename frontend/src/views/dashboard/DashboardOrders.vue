@@ -34,7 +34,7 @@
             <div style="display:flex; flex-direction:column; gap:5px; width:100%;">
               <div style="display:flex; justify-content:space-between; align-items:center;">
                 <span><strong>{{ o.foodType }}</strong> <small style="opacity:0.7">({{ o.orderType }})</small></span>
-                <span style="color:#00ffdd; font-weight:600;">{{ Number(o.amount).toLocaleString() }} RWF</span>
+                <span style="color:var(--primary); font-weight:600;">{{ Number(o.amount).toLocaleString() }} RWF</span>
               </div>
               <div style="display:flex; justify-content:space-between; align-items:center;">
                 <span style="font-size:0.8rem; opacity:0.6;">{{ o.date }}</span>

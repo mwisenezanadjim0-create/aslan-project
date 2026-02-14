@@ -100,7 +100,7 @@ const initChart = () => {
           datasets: [{
             label: "Daily Income (RWF)",
             data: dailyData.value.map(d => d.amount),
-            borderColor: "#00ffdd",
+            borderColor: "var(--primary)",
             backgroundColor: "rgba(0, 255, 221, 0.1)",
             borderWidth: 3,
             fill: true,
