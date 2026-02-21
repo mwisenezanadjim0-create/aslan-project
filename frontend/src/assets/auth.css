@@ -66,11 +66,11 @@ body {
 
   0%,
   100% {
-    buttom: -100px;
+    bottom: -100px;
   }
 
   70% {
-    buttom: 700px;
+    bottom: 700px;
   }
 }
 

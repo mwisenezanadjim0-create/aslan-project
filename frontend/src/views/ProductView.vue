@@ -126,7 +126,8 @@ const categories = [
   { id: 'starter', label: 'Starters', icon: 'fas fa-leaf' },
   { id: 'soup', label: 'Soups', icon: 'fas fa-bowl-hot' },
   { id: 'main', label: 'Main', icon: 'fas fa-hamburger' },
-  { id: 'drinks', label: 'Drinks', icon: 'fas fa-glass-martini-alt' }
+  { id: 'drinks', label: 'Drinks', icon: 'fas fa-glass-martini-alt' },
+  { id: 'giftcards', label: 'Gift Cards', icon: 'fas fa-moon' }
 ]
 
 const titleMap = {
@@ -135,7 +136,8 @@ const titleMap = {
   'starter': 'Fresh Starters',
   'soup': 'Hearty Soups',
   'main': 'Signature Dishes',
-  'drinks': 'Chilled Beverages'
+  'drinks': 'Chilled Beverages',
+  'giftcards': 'Ramadhan Gift Cards'
 }
 
 const filteredMenu = computed(() => {
@@ -165,7 +167,7 @@ const filteredMenu = computed(() => {
     sections[item.category].items.push(item)
   })
 
-  const categoryOrder = ['breakfast', 'snacks', 'starter', 'soup', 'main', 'sides', 'drinks']
+  const categoryOrder = ['breakfast', 'snacks', 'starter', 'soup', 'main', 'sides', 'drinks', 'giftcards']
   return categoryOrder
     .filter(cat => sections[cat])
     .map(cat => sections[cat])

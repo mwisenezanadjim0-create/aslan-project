@@ -129,10 +129,11 @@ const cartStore = useCartStore()
 const activeSection = ref('giftcards')
 
 const giftCards = [
-    { name: 'Bronze Gift Card', price: 10000, shortPrice: '10k', icon: 'fas fa-gift', description: '<strong>Good for:</strong> Vegetarian Pizza, Beef Steak, or King Burger + Drink.' },
-    { name: 'Silver Gift Card', price: 25000, shortPrice: '25k', icon: 'fas fa-gem', description: '<strong>Good for:</strong> Full Chicken & Chips, Big Grilled Fish, or 2x Pizzas.' },
-    { name: 'Gold VIP Gift Card', price: 50000, shortPrice: '50k', icon: 'fas fa-crown', description: '<strong>Good for:</strong> Aslan Master Plate (Fish/Chicken), Family Platters, or Full 3-Course Dinner.' },
-    { name: 'Platinum Elite Card', price: 100000, shortPrice: '100k', icon: 'fas fa-users', description: '<strong>Grand Celebration:</strong> All-inclusive premium feast designed for large groups (8-10 Pax). Perfect for big families.' }
+    { name: 'Silver Ramadhan Card', price: 10000, shortPrice: '10k', icon: 'fas fa-moon', description: '<strong>Moonlight Special:</strong> Perfect for a light Iftar snack or coffee with friends.' },
+    { name: 'Premium Ramadhan Card', price: 20000, shortPrice: '20k', icon: 'fas fa-star-and-crescent', description: '<strong>Elite Iftar:</strong> Good for a full individual Iftar meal with appetizers and drinks.' },
+    { name: 'Gold Ramadhan Pass', price: 30000, shortPrice: '30k', icon: 'fas fa-crown', description: '<strong>Royal Feast:</strong> The ultimate luxury Iftar experience. Good for a signature Master Plate feast.' },
+    { name: 'Gold VIP Gift Card', price: 50000, shortPrice: '50k', icon: 'fas fa-gem', description: '<strong>VIP Experience:</strong> Good for Aslan Master Plate (Fish/Chicken), Family Platters, or Full Dinner.' },
+    { name: 'Platinum Elite Card', price: 100000, shortPrice: '100k', icon: 'fas fa-users', description: '<strong>Grand Celebration:</strong> All-inclusive premium feast designed for large groups (8-10 Pax).' }
 ]
 
 const events = [

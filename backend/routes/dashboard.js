@@ -75,14 +75,6 @@ router.get("/summary", verifyToken, async (req, res) => {
     const filter = isAdmin ? {} : { userId };
 
     const stockCount = await Stock.countDocuments(filter);
-    const dailyRecords = await Daily.find(filter);
-
-    let totalAllTime = 0;
-    let totalToday = 0;
-    let totalThisWeek = 0;
-    let totalThisMonth = 0;
-    let totalThisYear = 0;
-
     const now = new Date();
     const serverYear = now.getFullYear();
     const serverMonth = now.getMonth() + 1;
@@ -96,61 +88,73 @@ router.get("/summary", verifyToken, async (req, res) => {
     const startOfWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay());
     startOfWeek.setHours(0, 0, 0, 0);
 
-    dailyRecords.forEach(record => {
-      const amount = Number(record.amount) || 0;
-      totalAllTime += amount;
-
-      if (!record.date) return;
-
-      const rDateStr = String(record.date).trim();
-
-      // Split YYYY-MM-DD
-      const parts = rDateStr.split("-");
-      if (parts.length === 3) {
-        const rYear = parseInt(parts[0]);
-        const rMonth = parseInt(parts[1]);
-        const rDay = parseInt(parts[2]);
-
-        // Yearly
-        if (rYear === serverYear) {
-          totalThisYear += amount;
-
-          // Monthly
-          if (rMonth === serverMonth) {
-            totalThisMonth += amount;
-
-            // Daily
-            if (rDay === serverDay) {
-              totalToday += amount;
+    // domingo: This aggregation calculates all stats in a single database operation
+    const stats = await Daily.aggregate([
+      { $match: isAdmin ? {} : { userId: new mongoose.Types.ObjectId(userId) } },
+      {
+        $group: {
+          _id: null,
+          totalAllTime: { $sum: { $toDouble: "$amount" } },
+          totalToday: {
+            $sum: {
+              $cond: [
+                { $eq: ["$date", todayStr] },
+                { $toDouble: "$amount" },
+                0
+              ]
+            }
+          },
+          totalThisMonth: {
+            $sum: {
+              $cond: [
+                { $regexMatch: { input: "$date", regex: new RegExp(`^${monthStr}`) } },
+                { $toDouble: "$amount" },
+                0
+              ]
+            }
+          },
+          totalThisYear: {
+            $sum: {
+              $cond: [
+                { $regexMatch: { input: "$date", regex: new RegExp(`^${yearStr}`) } },
+                { $toDouble: "$amount" },
+                0
+              ]
             }
           }
         }
+      }
+    ]);
 
-        // Weekly
-        const rDate = new Date(rYear, rMonth - 1, rDay);
-        if (rDate >= startOfWeek && rDate <= now) {
-          totalThisWeek += amount;
-        }
-      } else {
-        // Fallback for non-standard formats
-        if (rDateStr === todayStr) totalToday += amount;
-        if (rDateStr.startsWith(monthStr)) totalThisMonth += amount;
-        if (rDateStr.startsWith(yearStr)) totalThisYear += amount;
+    const resultStats = stats[0] || { totalAllTime: 0, totalToday: 0, totalThisMonth: 0, totalThisYear: 0 };
+
+    // Weekly calculation still benefit from a smaller query
+    const weeklyData = await Daily.find({
+      ...(isAdmin ? {} : { userId }),
+      date: { $gte: todayStr.substring(0, 8) + '01' } // Rough filter to reduce memory
+    });
+
+    let totalThisWeek = 0;
+    weeklyData.forEach(record => {
+      const rDate = new Date(record.date);
+      if (rDate >= startOfWeek && rDate <= now) {
+        totalThisWeek += Number(record.amount) || 0;
       }
     });
 
+    const dailyCount = await Daily.countDocuments(filter);
     const marketingCount = await Marketing.countDocuments(filter);
 
     res.json({
       stockCount,
-      dailyCount: dailyRecords.length,
+      dailyCount,
       marketingCount,
       stats: {
-        allTime: totalAllTime,
-        today: totalToday,
+        allTime: resultStats.totalAllTime,
+        today: resultStats.totalToday,
         thisWeek: totalThisWeek,
-        thisMonth: totalThisMonth,
-        thisYear: totalThisYear
+        thisMonth: resultStats.totalThisMonth,
+        thisYear: resultStats.totalThisYear
       },
       todayDate: todayStr,
       role: req.user.role

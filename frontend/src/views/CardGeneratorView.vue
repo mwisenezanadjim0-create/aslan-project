@@ -12,9 +12,9 @@
 
         <label>Pass Type / Item</label>
         <select v-model="form.passType">
-            <option value="Valentine's Day Gift Card">Valentine's Day Gift Card (30k)</option>
-            <option value="Bronze Gift Card">Bronze Gift Card (10k)</option>
-            <option value="Silver Gift Card">Silver Gift Card (25k)</option>
+            <option value="Gold Ramadhan Pass">Gold Ramadhan Pass (30k)</option>
+            <option value="Premium Ramadhan Card">Premium Ramadhan Card (20k)</option>
+            <option value="Silver Ramadhan Card">Silver Ramadhan Card (10k)</option>
             <option value="Gold VIP Gift Card">Gold VIP Gift Card (50k)</option>
             <option value="Birthday Party Package">Birthday Party Package</option>
             <option value="Couple's Dinner Night">Couple's Dinner Night</option>
@@ -39,12 +39,22 @@
                     @click="form.theme = 'standard'" 
                     :class="{ active: form.theme === 'standard' }"
                     class="theme-btn"
-                >Standard Dark</button>
+                >Standard</button>
+                <button 
+                    @click="form.theme = 'ramadan'" 
+                    :class="{ active: form.theme === 'ramadan' }"
+                    class="theme-btn"
+                >🌙 Ramadan</button>
                 <button 
                     @click="form.theme = 'valentine'" 
                     :class="{ active: form.theme === 'valentine' }"
                     class="theme-btn"
-                >💕 Valentine's Day</button>
+                >💕 Valentine</button>
+            </div>
+            
+            <div style="margin-top: 15px; display: flex; align-items: center; gap: 10px;">
+                <input type="checkbox" v-model="form.socialMode" id="socialMode" style="width: auto; margin-bottom: 0;">
+                <label for="socialMode" style="margin-bottom: 0;">Social Media Post Mode (Logo & Address)</label>
             </div>
         </div>
 
@@ -55,16 +65,30 @@
     <div v-show="showPreview" id="digital-pass-container" style="max-width: 400px; margin-top: 30px;">
         <div 
             class="digital-pass" 
-            :class="{ 'valentine-theme': form.theme === 'valentine' }"
+            :class="[
+                { 'valentine-theme': form.theme === 'valentine' },
+                { 'ramadan-theme': form.theme === 'ramadan' },
+                { 'gold-tier': form.passType.includes('Gold') },
+                { 'premium-tier': form.passType.includes('Premium') },
+                { 'silver-tier': form.passType.includes('Silver') }
+            ]"
             ref="captureArea"
         >
             <div class="pass-header">
-                <span class="pass-type">{{ form.theme === 'valentine' ? 'HAPPY VALENTINE\'S DAY' : 'OFFICIAL PASS' }}</span>
+                <span class="pass-type">
+                    {{ form.theme === 'valentine' ? 'HAPPY VALENTINE\'S DAY' : 
+                       form.theme === 'ramadan' ? 'RAMADHAN KAREEM' : 'OFFICIAL PASS' }}
+                </span>
                 <img src="@/assets/img/2.png" alt="Logo" class="pass-logo">
             </div>
             <div class="pass-body">
                 <div v-if="form.theme === 'valentine'" class="valentine-icon">
                     <i class="fas fa-heart"></i>
+                </div>
+                <div v-if="form.theme === 'ramadan'" class="ramadan-icon">
+                    <i v-if="form.passType.includes('Gold')" class="fas fa-crown"></i>
+                    <i v-else-if="form.passType.includes('Premium')" class="fas fa-star-and-crescent"></i>
+                    <i v-else class="fas fa-moon"></i>
                 </div>
                 <h3 id="pass-item-name">{{ form.passType }}</h3>
                 <p class="pass-desc">{{ descriptions[form.passType] }}</p>
@@ -90,7 +114,18 @@
                 </div>
             </div>
             <div class="pass-footer">
-                <p>{{ form.theme === 'valentine' ? 'Valid for Romantic Dinners at Aslan Café.' : 'Present this Official Digital Pass to the waiter.' }}</p>
+                <p v-if="form.theme === 'valentine'">Valid for Romantic Dinners at Aslan Café.</p>
+                <p v-else-if="form.theme === 'ramadan'">Valid for Iftar Experiences at Aslan Café.</p>
+                <p v-else>Present this Official Digital Pass to the waiter.</p>
+                
+                <!-- Social Media Branding -->
+                <div v-if="form.socialMode" class="social-branding">
+                    <div class="branding-divider"></div>
+                    <div class="branding-info">
+                        <span><i class="fas fa-map-marker-alt"></i> Kigali, Rwanda</span>
+                        <span><i class="fab fa-instagram"></i> @aslancafekgl</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -125,10 +160,10 @@ const form = reactive({
 })
 
 const descriptions = {
-    'Valentine\'s Day Gift Card': 'Valentine\'s Special: Romantic Dinner for Two, or Any 3 Platters of Choice.',
-    'Bronze Gift Card': 'Good for: Vegetarian Pizza, Beef Steak, or King Burger + Drink.',
-    'Silver Gift Card': 'Good for: Full Chicken & Chips, Big Grilled Fish, or 2x Pizzas.',
-    'Gold VIP Gift Card': 'Good for: Aslan Master Plate (Fish/Chicken), Family Platters, or Full 3-Course Dinner.',
+    'Gold Ramadhan Pass': 'Royal Iftar: Signature Master Plate (Fish/Chicken) + Full Appetizers & Special Drinks.',
+    'Premium Ramadhan Card': 'Elite Iftar: Full Individual Iftar Meal including Starters, Main Course & Refreshment.',
+    'Silver Ramadhan Card': 'Moonlight Special: Perfect for a light Iftar snack, Coffee & Deluxe Dessert.',
+    'Gold VIP Gift Card': 'VIP Experience: Aslan Master Plate, Family Platters, or Full 3-Course Dinner.',
     'Platinum Elite Card': 'All-inclusive premium feast designed for large groups (8-10 Pax).',
     'Birthday Party Package': 'Complete Celebration for 8-10 people. Includes Cake & Decorations.',
     "Couple's Dinner Night": 'A romantic 3-course meal for two with decorative setting.',
@@ -330,6 +365,60 @@ label {
 .ramadan-theme .pass-id-box h2 {
     color: #ffd700;
     text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+/* RAMADAN TIER VARIATIONS */
+.ramadan-theme.premium-tier {
+    background: radial-gradient(circle at center, #0a1b2f 0%, #030a18 100%) !important;
+    border: 2px solid #c0c0c0 !important;
+}
+
+.ramadan-theme.premium-tier .pass-type,
+.ramadan-theme.premium-tier .ramadan-icon,
+.ramadan-theme.premium-tier .pass-owner span,
+.ramadan-theme.premium-tier .pass-id-box h2,
+.ramadan-theme.premium-tier .pass-desc {
+    color: #00e5ff;
+    text-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+}
+
+.ramadan-theme.silver-tier {
+    background: radial-gradient(circle at center, #2f2f2f 0%, #151515 100%) !important;
+    border: 2px solid #a8a8a8 !important;
+}
+
+.ramadan-theme.silver-tier .pass-type,
+.ramadan-theme.silver-tier .ramadan-icon,
+.ramadan-theme.silver-tier .pass-owner span,
+.ramadan-theme.silver-tier .pass-id-box h2,
+.ramadan-theme.silver-tier .pass-desc {
+    color: #e0e0e0;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+/* SOCIAL MODE BRANDING */
+.social-branding {
+    margin-top: 15px;
+    width: 100%;
+}
+
+.branding-divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent);
+    margin-bottom: 10px;
+}
+
+.branding-info {
+    display: flex;
+    justify-content: space-around;
+    font-size: 0.75rem;
+    opacity: 0.7;
+    font-weight: 500;
+}
+
+.branding-info i {
+    color: var(--primary);
+    margin-right: 5px;
 }
 
 .pass-desc {

@@ -4,6 +4,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import mongoose from "mongoose";
 import cors from "cors";
+import compression from "compression";
 import fileUpload from "express-fileupload";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -35,6 +36,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.use(compression());
 app.use(express.json());
 app.use(fileUpload());
 
@@ -56,15 +58,38 @@ app.use("/api/reviews", reviewsRoutes);
 app.use("/api/bookings", bookingsRoutes);
 app.use("/api/products", productsRoutes);
 
-// Serve Frontend Static Files
+// Serve Frontend Static Files with aggressive caching for assets
 const frontendDist = path.join(__dirname, "../frontend/dist");
-app.use(express.static(frontendDist));
+
+// Diagnostic log for deployment
+logInfo(`Frontend Path: ${frontendDist}`);
+
+// Cache static assets for 1 year (standard for hashed/static assets)
+app.use(express.static(frontendDist, {
+  maxAge: '1y',
+  etag: true,
+  setHeaders: (res, path) => {
+    if (path.endsWith('.html')) {
+      // Don't cache HTML files to ensure updates are seen
+      res.setHeader('Cache-Control', 'no-cache');
+    }
+  }
+}));
 
 // Fallback to index.html for SPA-like behavior
 app.get(/^(?!\/api).*/, (req, res) => {
   const indexPath = path.join(frontendDist, "index.html");
-  // Check if dist/index.html exists, if not fallback to the source index.html (useful for dev)
-  res.sendFile(indexPath);
+
+  if (req.path.includes('.') && !req.path.endsWith('.html')) {
+    return res.status(404).send('Not found');
+  }
+
+  res.sendFile(indexPath, (err) => {
+    if (err) {
+      // If frontend dist is missing or index.html is missing, send a friendly error
+      res.status(500).send("Frontend files not found. Please run 'npm run build' and ensure the 'dist' folder exists.");
+    }
+  });
 });
 
 const maskedUri = process.env.MONGO_URI ? process.env.MONGO_URI.replace(/:([^@]+)@/, ":****@") : "UNDEFINED";

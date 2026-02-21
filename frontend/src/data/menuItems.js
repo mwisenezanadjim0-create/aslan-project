@@ -152,5 +152,10 @@ export const menuItems = [
     { id: 1602, name: "Orange caramel frape", category: "drinks", price: "5000", description: "Zesty caramel coffee", icon: "fa-mug-hot" },
     { id: 1603, name: "Banana mocha freez", category: "drinks", price: "5000", description: "Banana and chocolate coffee", icon: "fa-mug-hot" },
     { id: 1604, name: "Vanilla cappuccii", category: "drinks", price: "4000", description: "Smooth vanilla coffee", icon: "fa-mug-hot" },
-    { id: 1605, name: "Frappuccino", category: "drinks", price: "5000", description: "Classic blended coffee", icon: "fa-mug-hot" }
+    { id: 1605, name: "Frappuccino", category: "drinks", price: "5000", description: "Classic blended coffee", icon: "fa-mug-hot" },
+
+    // --- RAMADAN GIFT CARDS (NEW) ---
+    { id: 1701, name: "Silver Ramadhan Card", category: "giftcards", price: "10000", description: "Moonlight Special: Perfect for a light Iftar snack or coffee with friends.", icon: "fa-moon" },
+    { id: 1702, name: "Premium Ramadhan Card", category: "giftcards", price: "20000", description: "Elite Iftar: Full individual Iftar meal with appetizers and drinks.", icon: "fa-star-and-crescent" },
+    { id: 1703, name: "Gold Ramadhan Pass", category: "giftcards", price: "30000", description: "Royal Feast: The ultimate luxury Iftar experience.", icon: "fa-crown" }
 ];
